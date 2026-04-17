@@ -1,0 +1,3814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viva Hoje — Saúde & Bem-estar</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========================
+       VARIÁVEIS & BASE
+    ======================== */
+    :root {
+      --vv-primary:     #3d7a5e;
+      --vv-primary-lt:  #d4eddf;
+      --vv-secondary:   #5b7c99;
+      --vv-secondary-lt:#d6e4f0;
+      --vv-accent:      #e8a838;
+      --vv-bg:          #f5fbf8;
+      --vv-surface:     #ffffff;
+      --vv-muted:       #6c757d;
+      --vv-border:      #dee2e6;
+      --vv-text:        #1a2e25;
+      --font-head:      'Manrope', sans-serif;
+      --font-body:      'Plus Jakarta Sans', sans-serif;
+      --radius:         1rem;
+      --radius-pill:    999px;
+      --shadow-sm:      0 2px 8px rgba(0,0,0,.06);
+      --shadow-md:      0 6px 24px rgba(0,0,0,.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--vv-bg);
+      color: var(--vv-text);
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5 { font-family: var(--font-head); }
+
+    /* ========================
+       NAVBAR
+    ======================== */
+    #main-navbar {
+      background: rgba(245, 251, 248, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(61, 122, 94, .12);
+      box-shadow: 0 2px 16px rgba(61, 122, 94, .07);
+      transition: box-shadow .3s;
+      z-index: 1050;
+    }
+
+    #main-navbar.scrolled {
+      box-shadow: 0 4px 24px rgba(61, 122, 94, .14);
+    }
+
+    .navbar-brand {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--vv-primary) !important;
+      letter-spacing: -.5px;
+    }
+
+    .nav-link {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--vv-muted) !important;
+      padding: .4rem .75rem !important;
+      border-radius: var(--radius-pill);
+      transition: color .2s, background .2s;
+      cursor: pointer;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--vv-primary) !important;
+      background: var(--vv-primary-lt);
+    }
+
+    .btn-nav-cta {
+      background: var(--vv-primary);
+      color: #fff !important;
+      border-radius: var(--radius-pill);
+      padding: .45rem 1.4rem !important;
+      font-weight: 700;
+      font-size: .85rem;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .btn-nav-cta:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* ========================
+       PAGES (SPA)
+    ======================== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ========================
+       HERO
+    ======================== */
+    .hero {
+      min-height: 92vh;
+      background: linear-gradient(135deg, #e8f5ee 0%, #d6e4f0 50%, #fff8ec 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(61,122,94,.13) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--vv-primary-lt);
+      color: var(--vv-primary);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .35rem 1rem;
+      border-radius: var(--radius-pill);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      color: var(--vv-text);
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--vv-primary);
+    }
+
+    .hero p.lead {
+      font-size: 1.1rem;
+      color: var(--vv-muted);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 1.4rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ========================
+       BOTÕES GLOBAIS
+    ======================== */
+    .btn-primary-vv {
+      background: var(--vv-primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: .75rem 2rem;
+      font-weight: 700;
+      font-family: var(--font-head);
+      font-size: .95rem;
+      transition: opacity .2s, transform .15s, box-shadow .2s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      box-shadow: 0 4px 16px rgba(61,122,94,.25);
+    }
+
+    .btn-primary-vv:hover {
+      opacity: .9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(61,122,94,.3);
+      color: #fff;
+    }
+
+    .btn-secondary-vv {
+      background: transparent;
+      color: var(--vv-primary);
+      border: 2px solid var(--vv-primary);
+      border-radius: var(--radius-pill);
+      padding: .72rem 2rem;
+      font-weight: 700;
+      font-family: var(--font-head);
+      font-size: .95rem;
+      transition: background .2s, color .2s, transform .15s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+    }
+
+    .btn-secondary-vv:hover {
+      background: var(--vv-primary-lt);
+      transform: translateY(-2px);
+      color: var(--vv-primary);
+    }
+
+    .btn-accent {
+      background: var(--vv-accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: .65rem 1.6rem;
+      font-weight: 700;
+      font-family: var(--font-head);
+      font-size: .9rem;
+      transition: opacity .2s, transform .15s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+    }
+
+    .btn-accent:hover { opacity: .88; transform: translateY(-2px); color: #fff; }
+
+    /* ========================
+       CARDS
+    ======================== */
+    .vv-card {
+      background: var(--vv-surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--vv-border);
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s, box-shadow .25s;
+      overflow: hidden;
+    }
+
+    .vv-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .vv-card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .vv-card-body { padding: 1.4rem; }
+
+    .vv-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ========================
+       SEÇÕES GERAIS
+    ======================== */
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: var(--vv-text);
+      margin-bottom: .5rem;
+    }
+
+    .section-sub {
+      color: var(--vv-muted);
+      font-size: 1rem;
+      max-width: 560px;
+      line-height: 1.65;
+    }
+
+    .chip {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: .3rem .9rem;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ========================
+       BENTO GRID (INÍCIO)
+    ======================== */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .bento-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .bento-grid { grid-template-columns: 1fr; }
+    }
+
+    .bento-item {
+      background: var(--vv-surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--vv-border);
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s, background .2s;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .bento-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      background: var(--vv-primary-lt);
+    }
+
+    .bento-item .icon-wrap {
+      font-size: 2rem;
+      color: var(--vv-primary);
+      margin-bottom: .4rem;
+    }
+
+    .bento-item h5 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .bento-item p {
+      font-size: .82rem;
+      color: var(--vv-muted);
+      margin: 0;
+    }
+
+    .bento-item.highlight {
+      background: var(--vv-primary);
+      border-color: var(--vv-primary);
+    }
+
+    .bento-item.highlight .icon-wrap,
+    .bento-item.highlight h5,
+    .bento-item.highlight p { color: #fff; }
+
+    .bento-item.highlight:hover { background: #2f6349; }
+
+    /* ========================
+       PAGE HEADER
+    ======================== */
+    .page-header {
+      padding: 3rem 0 2rem;
+    }
+
+    /* ========================
+       CATEGORY PILLS (filtros)
+    ======================== */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      background: var(--vv-surface);
+      border: 1.5px solid var(--vv-border);
+      color: var(--vv-muted);
+      border-radius: var(--radius-pill);
+      padding: .4rem 1.1rem;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--vv-primary);
+      border-color: var(--vv-primary);
+      color: #fff;
+    }
+
+    /* ========================
+       ROTINA INTERATIVA
+    ======================== */
+    .rotina-list { list-style: none; padding: 0; margin: 0; }
+
+    .rotina-item {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      padding: .95rem 0;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      transition: opacity .3s;
+    }
+
+    .rotina-item.done { opacity: .45; }
+    .rotina-item.done .rotina-label { text-decoration: line-through; }
+
+    .rotina-check-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--vv-primary);
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+      color: transparent;
+      font-size: 1rem;
+    }
+
+    .rotina-check-btn.checked {
+      background: var(--vv-primary);
+      color: #fff;
+    }
+
+    .rotina-label { flex: 1; font-weight: 500; font-size: .95rem; }
+
+    .rotina-time {
+      font-size: .78rem;
+      color: var(--vv-muted);
+      background: var(--vv-bg);
+      padding: .2rem .65rem;
+      border-radius: var(--radius-pill);
+    }
+
+    .rotina-del {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 1.1rem;
+      transition: color .2s;
+      padding: 0 .2rem;
+    }
+
+    .rotina-del:hover { color: #dc3545; }
+
+    .progress-bar-vv {
+      height: 8px;
+      border-radius: 4px;
+      background: var(--vv-border);
+      overflow: hidden;
+      margin-bottom: .4rem;
+    }
+
+    .progress-bar-vv-inner {
+      height: 100%;
+      background: linear-gradient(90deg, var(--vv-primary), #62c08b);
+      border-radius: 4px;
+      transition: width .5s ease;
+    }
+
+    /* ========================
+       HIDRATAÇÃO TRACKER
+    ======================== */
+    .water-glass {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .3rem;
+      cursor: pointer;
+    }
+
+    .water-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #e8f4fd;
+      border: 2px solid #aed6f1;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      flex-shrink: 0;
+    }
+
+    .water-btn.filled {
+      background: #3498db;
+      border-color: #2980b9;
+    }
+
+    .water-btn:hover { transform: scale(1.1); }
+
+    /* ========================
+       DICAS — ACCORDION
+    ======================== */
+    .dica-accordion .accordion-button:not(.collapsed) {
+      background: var(--vv-primary-lt);
+      color: var(--vv-primary);
+      box-shadow: none;
+    }
+
+    .dica-accordion .accordion-button:focus { box-shadow: none; }
+
+    /* ========================
+       PSICOLÓGICO — RESPIRA
+    ======================== */
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: .6; }
+      50% { transform: scale(1.55); opacity: 1; }
+    }
+
+    .breathe-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--vv-primary) 0%, #62c08b 100%);
+      opacity: .7;
+      cursor: pointer;
+      transition: opacity .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .breathe-circle.animating {
+      animation: breathe 8s ease-in-out infinite;
+    }
+
+    /* ========================
+       TOAST
+    ======================== */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1a2e25;
+      color: #fff;
+      padding: .9rem 1.8rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: .9rem;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,.2);
+      transition: transform .4s cubic-bezier(.21,1.02,.73,1);
+      pointer-events: none;
+    }
+
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ========================
+       FOOTER
+    ======================== */
+    footer {
+      background: #1a2e25;
+      color: rgba(255,255,255,.7);
+      padding: 3rem 0 1.5rem;
+    }
+
+    footer h5 { color: #fff; font-family: var(--font-head); }
+
+    footer a {
+      color: rgba(255,255,255,.6);
+      text-decoration: none;
+      font-size: .9rem;
+      display: block;
+      margin-bottom: .4rem;
+      transition: color .2s;
+    }
+
+    footer a:hover { color: #62c08b; }
+
+    /* ========================
+       UTILITIES
+    ======================== */
+    .text-primary-vv { color: var(--vv-primary) !important; }
+    .bg-primary-vv   { background: var(--vv-primary) !important; }
+    .bg-primary-lt   { background: var(--vv-primary-lt) !important; }
+
+    .category-badge {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .28rem .8rem;
+      border-radius: var(--radius-pill);
+    }
+
+    .stars { color: var(--vv-accent); }
+
+    /* OFFSET para navbar fixa */
+    .pt-navbar { padding-top: 78px; }
+
+    /* Imagem de fundo sutil nas seções */
+    .section-alt { background: linear-gradient(180deg, var(--vv-bg) 0%, #edf5f0 100%); }
+
+    /* ========================
+       RESPONSIVIDADE EXTRA
+    ======================== */
+    @media (max-width: 576px) {
+      .hero { min-height: 70vh; }
+      .hero h1 { font-size: 2rem; }
+    }
+
+    /* ========================
+       SOBRE O PROJETO (Início)
+    ======================== */
+    .about-strip {
+      background: linear-gradient(135deg, #1a2e25 0%, #2f6349 100%);
+      color: #fff;
+      border-radius: 1.4rem;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-strip::before {
+      content: '';
+      position: absolute;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+      right: -80px; top: -80px;
+    }
+    .about-strip::after {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(98,192,139,.1);
+      left: -40px; bottom: -60px;
+    }
+    .about-stat {
+      text-align: center;
+      padding: 1.2rem;
+    }
+    .about-stat .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #62c08b;
+      display: block;
+    }
+    .about-stat .stat-label {
+      font-size: .82rem;
+      opacity: .75;
+      display: block;
+      margin-top: .2rem;
+    }
+    .manifesto-card {
+      border-left: 4px solid var(--vv-primary);
+      background: var(--vv-surface);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.5rem 1.8rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .manifesto-card blockquote {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--vv-text);
+      margin: 0;
+      line-height: 1.75;
+    }
+
+    /* ========================
+       MODAL DE EXERCÍCIO / RECEITA
+    ======================== */
+    .vv-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26,46,37,.55);
+      z-index: 1070;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backdrop-filter: blur(4px);
+    }
+    .vv-modal-overlay.open { display: flex; }
+
+    .vv-modal {
+      background: var(--vv-surface);
+      border-radius: 1.4rem;
+      max-width: 580px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 2rem 2rem 1.5rem;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(0,0,0,.28);
+      animation: modalIn .3s cubic-bezier(.21,1.02,.73,1);
+    }
+
+    @keyframes modalIn {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    .vv-modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: var(--vv-bg);
+      border: none;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+      color: var(--vv-muted);
+    }
+    .vv-modal-close:hover { background: var(--vv-primary-lt); color: var(--vv-primary); }
+
+    .step-list { list-style: none; padding: 0; margin: 0; }
+    .step-list li {
+      display: flex;
+      gap: .9rem;
+      align-items: flex-start;
+      padding: .65rem 0;
+      border-bottom: 1px solid rgba(0,0,0,.05);
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+    .step-num {
+      min-width: 26px; height: 26px;
+      background: var(--vv-primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700;
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
+    .tip-highlight {
+      background: #fff8ec;
+      border-left: 3px solid var(--vv-accent);
+      padding: .75rem 1rem;
+      border-radius: 0 8px 8px 0;
+      font-size: .87rem;
+      line-height: 1.6;
+      margin-top: .8rem;
+    }
+    .benefit-pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; }
+    .benefit-pill {
+      background: var(--vv-primary-lt);
+      color: var(--vv-primary);
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .25rem .75rem;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Ingredientes da receita */
+    .ingredient-list { columns: 2; gap: 1rem; }
+    @media (max-width: 480px) { .ingredient-list { columns: 1; } }
+    .ingredient-list li { font-size: .88rem; margin-bottom: .35rem; }
+
+    /* ========================
+       ROTINA — FUNDO VIVO
+    ======================== */
+    #page-rotina {
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(61,122,94,.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 70%, rgba(91,124,153,.07) 0%, transparent 50%),
+        linear-gradient(170deg, #edf7f2 0%, #f5fbf8 100%);
+      min-height: 100vh;
+    }
+
+    /* ========================
+       PSICOLÓGICO — TÉCNICAS EXPANDIDAS
+    ======================== */
+    .tecnica-steps { list-style: none; padding: 0; margin: .8rem 0 0; }
+    .tecnica-steps li {
+      display: flex; gap: .7rem; align-items: flex-start;
+      font-size: .85rem; line-height: 1.6; padding: .4rem 0;
+      border-bottom: 1px dashed rgba(0,0,0,.07);
+    }
+    .tecnica-steps li:last-child { border-bottom: none; }
+    .tecnica-icon { color: var(--vv-primary); flex-shrink: 0; margin-top: .2rem; }
+
+    /* ========================
+       LAZER — CARDS EXPANDIDOS
+    ======================== */
+    .lazer-benefits {
+      display: flex; flex-direction: column; gap: .4rem;
+      margin: .8rem 0;
+    }
+    .lazer-benefit-item {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .83rem; color: var(--vv-muted);
+    }
+    .lazer-benefit-item i { color: var(--vv-primary); font-size: .9rem; flex-shrink: 0; }
+    .lazer-start-box {
+      background: var(--vv-bg);
+      border-radius: .8rem;
+      padding: .9rem 1rem;
+      margin-top: .8rem;
+    }
+    .lazer-start-box p { font-size: .82rem; margin: 0; color: var(--vv-muted); }
+    .lazer-start-box strong { color: var(--vv-primary); display: block; margin-bottom: .3rem; font-size: .85rem; }
+  </style>
+</head>
+<body>
+
+<!-- ==============================
+     NAVBAR FIXA
+============================== -->
+<nav id="main-navbar" class="navbar navbar-expand-lg fixed-top py-2">
+  <div class="container-xl">
+    <a class="navbar-brand" href="#" onclick="showPage('inicio'); return false;">
+      <i class="bi bi-heart-pulse-fill me-1"></i>Viva Hoje
+    </a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link active" data-page="inicio" onclick="showPage('inicio')">Início</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-page="exercicio" onclick="showPage('exercicio')">Exercício</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-page="alimentacao" onclick="showPage('alimentacao')">Alimentação</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-page="rotina" onclick="showPage('rotina')">Rotina</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-page="psicologico" onclick="showPage('psicologico')">Psicológico</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-page="lazer" onclick="showPage('lazer')">Lazer</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-page="dica" onclick="showPage('dica')">Dica</a>
+        </li>
+      </ul>
+      <button class="btn-nav-cta nav-link ms-lg-3 mt-2 mt-lg-0" onclick="showPage('contato')">
+        <i class="bi bi-chat-dots me-1"></i>Fale conosco
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- TOAST -->
+<div id="toast"><i class="bi bi-check-circle-fill"></i><span id="toast-msg">Mensagem enviada!</span></div>
+
+<!-- ============================================================
+     PÁGINA — INÍCIO
+============================================================ -->
+<div id="page-inicio" class="page active">
+
+  <!-- HERO -->
+  <section class="hero pt-navbar">
+    <div class="container-xl py-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="hero-badge"><i class="bi bi-heart-fill me-1"></i>Feito para você</span>
+          <h1>Cuidar de si é um<br>ato de <em>coragem.</em></h1>
+          <p class="lead mt-4 mb-5">
+            O <strong>Viva Hoje</strong> nasceu da crença de que cuidar da saúde não precisa ser
+            complicado, caro ou perfeito. Com informação acolhedora e prática,
+            queremos te acompanhar — no ritmo que é o seu.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <button class="btn-primary-vv" onclick="showPage('rotina')">
+              <i class="bi bi-play-circle"></i>Começar Jornada
+            </button>
+            <button class="btn-secondary-vv" onclick="document.getElementById('sobre-projeto').scrollIntoView({behavior:'smooth'})">
+              <i class="bi bi-info-circle"></i>Sobre o projeto
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+          <img class="hero-img"
+            src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+            alt="Bem-estar e saúde" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO EXPLORE -->
+  <section class="container-xl py-5">
+    <h2 class="section-title mb-1">Explore o Portal</h2>
+    <p class="section-sub mb-4">Tudo o que você precisa para viver melhor, reunido em um só lugar.</p>
+
+    <div class="bento-grid">
+      <div class="bento-item" onclick="showPage('exercicio')">
+        <div class="icon-wrap"><i class="bi bi-bicycle"></i></div>
+        <h5>Exercício</h5>
+        <p>Pilates, yoga, funcional e mais</p>
+      </div>
+      <div class="bento-item" onclick="showPage('alimentacao')">
+        <div class="icon-wrap"><i class="bi bi-basket2"></i></div>
+        <h5>Alimentação</h5>
+        <p>Receitas completas e nutritivas</p>
+      </div>
+      <div class="bento-item" onclick="showPage('rotina')">
+        <div class="icon-wrap"><i class="bi bi-clock"></i></div>
+        <h5>Rotina</h5>
+        <p>Monte e acompanhe seus hábitos</p>
+      </div>
+      <div class="bento-item" onclick="showPage('psicologico')">
+        <div class="icon-wrap"><i class="bi bi-brain"></i></div>
+        <h5>Psicológico</h5>
+        <p>Técnicas de mindfulness e autocuidado</p>
+      </div>
+      <div class="bento-item" onclick="showPage('lazer')">
+        <div class="icon-wrap"><i class="bi bi-palette"></i></div>
+        <h5>Lazer</h5>
+        <p>Atividades que nutrem a alma</p>
+      </div>
+      <div class="bento-item highlight" onclick="showPage('dica')">
+        <div class="icon-wrap"><i class="bi bi-lightbulb"></i></div>
+        <h5>Dicas do dia</h5>
+        <p>Pequenas ações, grandes mudanças</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE O PROJETO -->
+  <section id="sobre-projeto" class="container-xl pb-5">
+    <div class="about-strip">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-7" style="position:relative;z-index:1">
+          <span class="hero-badge" style="background:rgba(255,255,255,.15);color:#fff">Nossa missão</span>
+          <h2 style="color:#fff;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-top:.8rem;margin-bottom:1rem;line-height:1.2">
+            Democratizar o autocuidado,<br>uma escolha por vez.
+          </h2>
+          <p style="color:rgba(255,255,255,.82);font-size:.95rem;line-height:1.75;max-width:480px">
+            Criamos o <strong style="color:#62c08b">Viva Hoje</strong> com um propósito simples:
+            mostrar que cuidar da saúde é algo ao alcance de todos — não apenas de quem tem tempo sobrando,
+            dinheiro de sobra ou vontade de ferro. Aqui, você encontra informação humana, sem julgamento e sem pressão.
+          </p>
+          <p style="color:rgba(255,255,255,.82);font-size:.95rem;line-height:1.75;max-width:480px;margin-top:.75rem">
+            Acreditamos que <em style="color:#a8e6c3">uma caminhada de 15 minutos</em> importa tanto quanto
+            uma maratona. Que <em style="color:#a8e6c3">comer melhor hoje</em> já é uma vitória. Que
+            <em style="color:#a8e6c3">respirar fundo</em> é uma forma legítima de cuidado.
+            O perfeito não existe — o possível, sim.
+          </p>
+        </div>
+        <div class="col-lg-5" style="position:relative;z-index:1">
+          <div class="row g-2">
+            <div class="col-6">
+              <div class="about-stat" style="background:rgba(255,255,255,.08);border-radius:1rem">
+                <span class="stat-num">7</span>
+                <span class="stat-label">Áreas de bem-estar</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="about-stat" style="background:rgba(255,255,255,.08);border-radius:1rem">
+                <span class="stat-num">100%</span>
+                <span class="stat-label">Gratuito e acessível</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="about-stat" style="background:rgba(255,255,255,.08);border-radius:1rem">
+                <span class="stat-num">0</span>
+                <span class="stat-label">Julgamentos aqui</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="about-stat" style="background:rgba(255,255,255,.08);border-radius:1rem">
+                <span class="stat-num">∞</span>
+                <span class="stat-label">Recomeços permitidos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="container-xl pb-4">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-md-4">
+        <div class="manifesto-card h-100">
+          <div style="font-size:2rem;margin-bottom:.8rem">🌱</div>
+          <h5 style="margin-bottom:.5rem">Começos pequenos</h5>
+          <blockquote>"Não espere ter tudo certo para começar. O primeiro passo não precisa ser grande — precisa ser real."</blockquote>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="manifesto-card h-100" style="border-left-color:var(--vv-accent)">
+          <div style="font-size:2rem;margin-bottom:.8rem">🤝</div>
+          <h5 style="margin-bottom:.5rem">Sem comparações</h5>
+          <blockquote>"Sua jornada de saúde é única. Comparar seu dia 1 com o dia 365 de outra pessoa é roubar sua própria conquista."</blockquote>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="manifesto-card h-100" style="border-left-color:var(--vv-secondary)">
+          <div style="font-size:2rem;margin-bottom:.8rem">💚</div>
+          <h5 style="margin-bottom:.5rem">Consistência vence</h5>
+          <blockquote>"Fazer 20 minutos de caminhada hoje, amanhã e depois vale infinitamente mais que uma semana perfeita por mês."</blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESTAQUES RÁPIDOS -->
+  <section class="section-alt py-5">
+    <div class="container-xl">
+      <h2 class="section-title mb-1">Por que cuidar de você?</h2>
+      <p class="section-sub mb-5">Seu corpo e sua mente precisam de atenção — e isso não é egoísmo, é necessidade.</p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="vv-card h-100">
+            <div class="vv-card-body d-flex gap-3">
+              <div class="vv-card-icon bg-primary-lt flex-shrink-0">
+                <i class="bi bi-activity text-primary-vv"></i>
+              </div>
+              <div>
+                <h5 class="mb-2">Saúde física</h5>
+                <p class="text-muted mb-0" style="font-size:.9rem">Movimentar o corpo — mesmo que pouco — melhora o humor, regula o sono, fortalece a imunidade e dá mais energia para o dia.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="vv-card h-100">
+            <div class="vv-card-body d-flex gap-3">
+              <div class="vv-card-icon" style="background:#e8f4fd">
+                <i class="bi bi-emoji-smile" style="color:#3498db;font-size:1.4rem"></i>
+              </div>
+              <div>
+                <h5 class="mb-2">Saúde mental</h5>
+                <p class="text-muted mb-0" style="font-size:.9rem">Cuidar da mente reduz o estresse e a ansiedade, melhora os relacionamentos e aumenta a clareza para tomar decisões melhores.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="vv-card h-100">
+            <div class="vv-card-body d-flex gap-3">
+              <div class="vv-card-icon" style="background:#fff8ec">
+                <i class="bi bi-sun" style="color:#e8a838;font-size:1.4rem"></i>
+              </div>
+              <div>
+                <h5 class="mb-2">Qualidade de vida</h5>
+                <p class="text-muted mb-0" style="font-size:.9rem">Alimentação balanceada, bom descanso e momentos de lazer criam uma base sólida para você viver com mais presença e alegria.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-inicio -->
+
+
+<!-- ============================================================
+     PÁGINA — EXERCÍCIO
+============================================================ -->
+<div id="page-exercicio" class="page">
+  <div class="pt-navbar">
+    <div class="container-xl py-5">
+      <div class="page-header">
+        <span class="chip" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Movimento Consciente</span>
+        <h1 class="section-title mt-2">Encontre o seu <em class="text-primary-vv">ritmo suave.</em></h1>
+        <p class="section-sub">Práticas leves para nutrir o corpo sem exaustão. Descubra como mover-se pode transformar o seu dia.</p>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterCards('exercicio', 'todos', this)">Todos</button>
+        <button class="filter-btn" onclick="filterCards('exercicio', 'iniciante', this)">Iniciante</button>
+        <button class="filter-btn" onclick="filterCards('exercicio', 'intermediario', this)">Intermediário</button>
+        <button class="filter-btn" onclick="filterCards('exercicio', 'avancado', this)">Avançado</button>
+      </div>
+
+      <!-- CARDS EXERCÍCIOS -->
+      <div class="row g-4">
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="iniciante">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://manalinda.cdn.magazord.com.br/img/2024/01/blog/4272/1/postagem-full/pilates.jpg"
+              alt="Pilates">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Iniciante</span>
+              <h5 class="mt-2">Pilates para Iniciantes</h5>
+              <p class="text-muted" style="font-size:.88rem">Conecte respiração e movimento. Fortaleça o core e melhore a postura com movimentos suaves e controlados.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>15 min</span>
+                <button class="btn-accent" onclick="openExercise('pilates')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="iniciante">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?auto=format&fit=crop&w=600&q=80"
+              alt="Caminhada">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Iniciante</span>
+              <h5 class="mt-2">Caminhada Meditativa</h5>
+              <p class="text-muted" style="font-size:.88rem">Meditação em movimento. Cada passo com atenção plena — respiração, sons e presença no aqui e agora.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>30 min</span>
+                <button class="btn-accent" onclick="openExercise('caminhada')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="iniciante">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80"
+              alt="Alongamento">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Iniciante</span>
+              <h5 class="mt-2">Alongamento Matinal</h5>
+              <p class="text-muted" style="font-size:.88rem">A melhor forma de acordar o corpo. Aumenta a circulação, libera tensão noturna e energiza para o dia.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>10 min</span>
+                <button class="btn-accent" onclick="openExercise('alongamento')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="intermediario">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80"
+              alt="Yoga">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Intermediário</span>
+              <h5 class="mt-2">Yoga Restaurativa</h5>
+              <p class="text-muted" style="font-size:.88rem">Posturas passivas mantidas por vários minutos para liberar tensões profundas, restaurar energia e acalmar o sistema nervoso.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>45 min</span>
+                <button class="btn-accent" onclick="openExercise('yoga')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="intermediario">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=600&q=80"
+              alt="Funcional">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Intermediário</span>
+              <h5 class="mt-2">Treino Funcional Leve</h5>
+              <p class="text-muted" style="font-size:.88rem">Movimentos do cotidiano como treino: agachar, empurrar, puxar. Força real para a vida real, sem equipamento.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>35 min</span>
+                <button class="btn-accent" onclick="openExercise('funcional')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="avancado">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80"
+              alt="HIIT">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#fdecea;color:#c0392b">Avançado</span>
+              <h5 class="mt-2">HIIT de Baixo Impacto</h5>
+              <p class="text-muted" style="font-size:.88rem">Alta intensidade sem saltos. Circuitos que elevam o ritmo cardíaco preservando joelhos e tornozelos.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>25 min</span>
+                <button class="btn-accent" onclick="openExercise('hiit')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="iniciante">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=600&q=80"
+              alt="Dança Livre">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Iniciante</span>
+              <h5 class="mt-2">Dança Livre</h5>
+              <p class="text-muted" style="font-size:.88rem">A forma mais divertida de se exercitar. Sem coreografia obrigatória — apenas você, a música e o movimento que o corpo pede.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>20 min</span>
+                <button class="btn-accent" onclick="openExercise('danca')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="iniciante">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=600&q=80"
+              alt="Natação">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Iniciante</span>
+              <h5 class="mt-2">Natação para Iniciantes</h5>
+              <p class="text-muted" style="font-size:.88rem">Exercício completo sem impacto. A água suporta 90% do peso corporal — ideal para quem tem dores articulares ou quer começar com gentileza.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>30 min</span>
+                <button class="btn-accent" onclick="openExercise('natacao')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="intermediario">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://blog.minhasinscricoes.com.br/wp-content/uploads/2024/07/2024-blog-minhas-inscricoes-vida-de-atleta-corrida-de-rua.png"
+              alt="Corrida">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Intermediário</span>
+              <h5 class="mt-2">Corrida Leve (Jogging)</h5>
+              <p class="text-muted" style="font-size:.88rem">O cardio mais acessível do mundo. Um ritmo confortável, onde você consegue falar sem ficar sem fôlego, já traz benefícios enormes ao coração.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>30 min</span>
+                <button class="btn-accent" onclick="openExercise('corrida')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="intermediario">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://img.freepik.com/fotos-gratis/mulheres-a-andar-de-bicicleta_1163-977.jpg?semt=ais_hybrid&w=740&q=80"
+              alt="Ciclismo">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Intermediário</span>
+              <h5 class="mt-2">Ciclismo Indoor</h5>
+              <p class="text-muted" style="font-size:.88rem">Pedalar em casa ou na academia com intensidade controlada. Ótimo cardio sem impacto nos joelhos, com resultados rápidos e progressivos.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>40 min</span>
+                <button class="btn-accent" onclick="openExercise('ciclismo')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="avancado">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80"
+              alt="Musculação">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#fdecea;color:#c0392b">Avançado</span>
+              <h5 class="mt-2">Musculação para Iniciantes</h5>
+              <p class="text-muted" style="font-size:.88rem">Treino de força com foco em técnica e segurança. Músculos mais fortes melhoram a postura, aceleram o metabolismo e protegem as articulações.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>50 min</span>
+                <button class="btn-accent" onclick="openExercise('musculacao')">
+                  <i class="bi bi-list-check"></i>Ver exercício
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row exercício -->
+    </div>
+  </div>
+</div><!-- /page-exercicio -->
+
+
+<!-- ============================================================
+     PÁGINA — ALIMENTAÇÃO
+============================================================ -->
+<div id="page-alimentacao" class="page">
+  <div class="pt-navbar">
+    <div class="container-xl py-5">
+      <div class="page-header">
+        <span class="chip" style="background:#fff8ec;color:#c87f0a">Nutrição Consciente</span>
+        <h1 class="section-title mt-2">Coma bem, <em class="text-primary-vv">viva melhor.</em></h1>
+        <p class="section-sub">Receitas simples e informações nutricionais sem jargão técnico. Comida boa e acessível para todos.</p>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterCards('alimentacao', 'todos', this)">Todos</button>
+        <button class="filter-btn" onclick="filterCards('alimentacao', 'cafe', this)">Café da Manhã</button>
+        <button class="filter-btn" onclick="filterCards('alimentacao', 'almoco', this)">Almoço</button>
+        <button class="filter-btn" onclick="filterCards('alimentacao', 'lanche', this)">Lanche</button>
+        <button class="filter-btn" onclick="filterCards('alimentacao', 'jantar', this)">Jantar</button>
+      </div>
+
+      <div class="row g-4">
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="cafe">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1610970881699-44a5587cabec?auto=format&fit=crop&w=600&q=80"
+              alt="Vitamina Verde">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#fff8ec;color:#c87f0a">Café da Manhã</span>
+              <h5 class="mt-2">Vitamina Verde Energizante</h5>
+              <p class="text-muted" style="font-size:.88rem">Espinafre, banana, maçã verde e gengibre. Rica em ferro e vitamina C. Preparo em 5 minutos.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('vitamina')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="cafe">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://www.saborbrasil.it/wp-content/uploads/2021/06/Beiju-de-tapioca.jpg"
+              alt="Tapioca">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#fff8ec;color:#c87f0a">Café da Manhã</span>
+              <h5 class="mt-2">Tapioca com Coco e Mel</h5>
+              <p class="text-muted" style="font-size:.88rem">Sem glúten, leve e saborosa. Fonte de carboidratos de fácil digestão para começar o dia com energia.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('tapioca')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="almoco">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
+              alt="Bowl saudável">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Almoço</span>
+              <h5 class="mt-2">Buddha Bowl Colorido</h5>
+              <p class="text-muted" style="font-size:.88rem">Grãos, legumes assados, proteína magra e molho tahine. Completo, anti-inflamatório e muito saboroso.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('buddha')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="almoco">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80"
+              alt="Sopa">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Almoço</span>
+              <h5 class="mt-2">Sopa de Abóbora com Cúrcuma</h5>
+              <p class="text-muted" style="font-size:.88rem">Reconfortante, anti-inflamatória e fácil de fazer. Ótima para dias frios e para a saúde intestinal.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('sopa')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="lanche">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://img.freepik.com/fotos-gratis/deliciosas-nozes-de-caju-como-fundo_1150-45355.jpg"
+              alt="Castanhas">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#f3e8fd;color:#7d3c98">Lanche</span>
+              <h5 class="mt-2">Mix de Castanhas e Frutas Secas</h5>
+              <p class="text-muted" style="font-size:.88rem">Nozes, amêndoas e tâmaras. Rico em gorduras boas, ômega-3, fibras e antioxidantes naturais.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('castanhas')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="jantar">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1510693206972-df098062cb71?auto=format&fit=crop&w=600&q=80"
+              alt="Omelete">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Jantar</span>
+              <h5 class="mt-2">Omelete de Legumes</h5>
+              <p class="text-muted" style="font-size:.88rem">Leve, proteico e pronto em 10 minutos. Ideal à noite para não sobrecarregar a digestão antes de dormir.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('omelete')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOVOS CARDS -->
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="cafe">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=600&q=80"
+              alt="Açaí Bowl">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#fff8ec;color:#c87f0a">Café da Manhã</span>
+              <h5 class="mt-2">Açaí Bowl com Frutas</h5>
+              <p class="text-muted" style="font-size:.88rem">Potência antioxidante em cada colherada. Açaí com banana congelada, granola crocante e frutas frescas da estação.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('acai')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="cafe">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80"
+              alt="Iogurte com Granola">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#fff8ec;color:#c87f0a">Café da Manhã</span>
+              <h5 class="mt-2">Iogurte Grego com Granola</h5>
+              <p class="text-muted" style="font-size:.88rem">Proteína + fibras + gorduras boas. Um café da manhã que sustenta por horas sem pesar — pronto em 3 minutos.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('iogurte')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="almoco">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=600&q=80"
+              alt="Frango Grelhado">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Almoço</span>
+              <h5 class="mt-2">Frango Grelhado com Brócolis</h5>
+              <p class="text-muted" style="font-size:.88rem">O clássico saudável reinventado. Frango suculento com ervas finas, brócolis no alho e azeite — simples, nutritivo e delicioso.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('frango')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="almoco">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=600&q=80"
+              alt="Salada Proteica">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Almoço</span>
+              <h5 class="mt-2">Salada de Quinoa Proteica</h5>
+              <p class="text-muted" style="font-size:.88rem">Quinoa, grão-de-bico, pepino, tomate cereja e molho de limão com hortelã. Leve, saciante e cheio de nutrientes.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('salada')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="lanche">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://blog-obahortifruti.redeoba.com.br/wp-content/uploads/2023/10/Smoothie-de-morango-simples-facil-de-fazer-e-muito-gostoso.jpg"
+              alt="Smoothie">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#f3e8fd;color:#7d3c98">Lanche</span>
+              <h5 class="mt-2">Smoothie de Morango e Banana</h5>
+              <p class="text-muted" style="font-size:.88rem">Cremoso, naturalmente doce e cheio de vitamina C. Um lanche rápido que parece sobremesa — sem culpa nenhuma.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('smoothie')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="lanche">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1589010588553-46e8e7c21788?auto=format&fit=crop&w=600&q=80"
+              alt="Abacate">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#f3e8fd;color:#7d3c98">Lanche</span>
+              <h5 class="mt-2">Abacate com Mel e Granola</h5>
+              <p class="text-muted" style="font-size:.88rem">Gordura boa, fibras e sabor incrível. O abacate é um superalimento que sustenta, nutre o cérebro e cuida do coração.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('abacate')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="jantar">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80"
+              alt="Salmão">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Jantar</span>
+              <h5 class="mt-2">Salmão Assado com Batata-Doce</h5>
+              <p class="text-muted" style="font-size:.88rem">Ômega-3 + betacaroteno em uma refeição. Salmão temperado com limão siciliano, ervas e batata-doce assada com alecrim.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('salmao')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="jantar">
+          <div class="vv-card h-100">
+            <img class="vv-card-img"
+              src="https://s2-receitas.glbimg.com/d51cHB7NuxyXBrEkCpp1aKrQixc=/0x0:1366x768/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2024/b/9/le3LrdQTu4r3xZvInLAA/caldo-verde-receita.jpg"
+              alt="Caldo Verde">
+            <div class="vv-card-body">
+              <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Jantar</span>
+              <h5 class="mt-2">Caldo Verde</h5>
+              <p class="text-muted" style="font-size:.88rem">O abraço em forma de sopa. Couve, batata, cebola e azeite — um clássico leve e nutritivo perfeito para a noite.</p>
+              <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+                <button class="btn-primary-vv py-2 px-3" style="font-size:.82rem" onclick="openRecipe('caldoverde')">
+                  <i class="bi bi-eye"></i>Ver mais
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row alimentação -->
+
+      <!-- HIDRATAÇÃO WIDGET -->
+      <div class="vv-card mt-5 p-4">
+        <div class="row align-items-center g-4">
+          <div class="col-md-6">
+            <h4 class="mb-1"><i class="bi bi-droplet-half text-primary-vv me-2"></i>Controle de Hidratação</h4>
+            <p class="text-muted mb-3" style="font-size:.9rem">Clique nos copos para marcar a quantidade de água que bebeu hoje. Meta: 8 copos (2 litros).</p>
+            <div class="d-flex flex-wrap gap-2" id="water-grid">
+              <!-- Gerado via JS -->
+            </div>
+            <p class="mt-3 mb-0" style="font-size:.88rem">
+              <span id="water-count" class="fw-bold text-primary-vv">0</span> / 8 copos completados
+            </p>
+          </div>
+          <div class="col-md-6 text-center">
+            <svg viewBox="0 0 100 100" width="120" height="120">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#e8f4fd" stroke-width="10"/>
+              <circle id="hydro-circle" cx="50" cy="50" r="40" fill="none"
+                stroke="#3498db" stroke-width="10"
+                stroke-linecap="round"
+                stroke-dasharray="251.2" stroke-dashoffset="251.2"
+                transform="rotate(-90 50 50)"/>
+            </svg>
+            <p class="mt-2 mb-0 fw-bold" id="hydro-pct" style="color:#3498db">0%</p>
+            <p class="text-muted" style="font-size:.8rem">da meta diária</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-alimentacao -->
+
+
+<!-- ============================================================
+     PÁGINA — ROTINA
+============================================================ -->
+<div id="page-rotina" class="page">
+  <div class="pt-navbar">
+    <div class="container-xl py-5">
+      <div class="page-header">
+        <span class="chip" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Hábitos Diários</span>
+        <h1 class="section-title mt-2">Sua <em class="text-primary-vv">rotina</em> saudável.</h1>
+        <p class="section-sub">Marque as tarefas conforme o dia avança. Adicione novas atividades e acompanhe seu progresso.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-7">
+
+          <!-- PROGRESSO -->
+          <div class="vv-card p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-bold" style="font-size:.95rem">Progresso de hoje</span>
+              <span id="rotina-pct-text" class="fw-bold text-primary-vv">0%</span>
+            </div>
+            <div class="progress-bar-vv">
+              <div class="progress-bar-vv-inner" id="rotina-progress" style="width:0%"></div>
+            </div>
+            <p class="text-muted mt-2 mb-0" style="font-size:.82rem">
+              <span id="rotina-done-count">0</span> de <span id="rotina-total-count">0</span> tarefas concluídas
+            </p>
+          </div>
+
+          <!-- LISTA DE ROTINA -->
+          <div class="vv-card p-4 mb-4">
+            <ul class="rotina-list" id="rotina-list">
+              <!-- populada via JS -->
+            </ul>
+            <form id="add-rotina-form" class="mt-3 d-flex gap-2" onsubmit="addRotinaItem(event)">
+              <input id="add-rotina-input" type="text" placeholder="Adicionar nova atividade…"
+                class="form-control" style="border-radius:12px;font-size:.9rem" />
+              <input id="add-rotina-time" type="time"
+                class="form-control" style="border-radius:12px;font-size:.9rem;max-width:110px" />
+              <button type="submit" class="btn-primary-vv px-4" style="border-radius:12px;white-space:nowrap">
+                <i class="bi bi-plus-lg"></i>
+              </button>
+            </form>
+          </div>
+
+        </div>
+        <div class="col-lg-5">
+          <!-- SUGESTÕES -->
+          <div class="vv-card p-4 mb-4">
+            <h5 class="mb-3"><i class="bi bi-stars text-primary-vv me-2"></i>Sugestões de hábitos</h5>
+            <div class="d-flex flex-wrap gap-2">
+              <button class="filter-btn" onclick="addSugestao('🌅 Acordar cedo', '06:00')">🌅 Acordar cedo</button>
+              <button class="filter-btn" onclick="addSugestao('💧 Beber água ao acordar', '06:30')">💧 Água ao acordar</button>
+              <button class="filter-btn" onclick="addSugestao('🧘 Meditação', '07:00')">🧘 Meditação</button>
+              <button class="filter-btn" onclick="addSugestao('🏃 Exercício', '07:30')">🏃 Exercício</button>
+              <button class="filter-btn" onclick="addSugestao('📖 Leitura', '20:00')">📖 Leitura</button>
+              <button class="filter-btn" onclick="addSugestao('🌙 Dormir cedo', '22:00')">🌙 Dormir cedo</button>
+              <button class="filter-btn" onclick="addSugestao('🥗 Almoço saudável', '12:00')">🥗 Almoço saudável</button>
+              <button class="filter-btn" onclick="addSugestao('🚶 Caminhada 20 min', '17:00')">🚶 Caminhada</button>
+            </div>
+          </div>
+
+          <!-- DICA DA ROTINA -->
+          <div class="vv-card p-4" style="background:var(--vv-primary);color:#fff">
+            <h5 class="mb-2" style="color:#fff"><i class="bi bi-lightbulb me-2"></i>Sabia que…</h5>
+            <p class="mb-0" style="font-size:.9rem;opacity:.9">
+              Criar e manter uma rotina reduz o estresse e libera energia mental para atividades mais criativas.
+              Pequenas ações repetidas constroem grandes mudanças.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-rotina -->
+
+
+<!-- ============================================================
+     PÁGINA — PSICOLÓGICO
+============================================================ -->
+<div id="page-psicologico" class="page">
+  <div class="pt-navbar">
+    <div class="container-xl py-5">
+      <div class="page-header">
+        <span class="chip" style="background:#e8f4fd;color:var(--vv-secondary)">Saúde Mental</span>
+        <h1 class="section-title mt-2">Cuide da sua <em class="text-primary-vv">mente.</em></h1>
+        <p class="section-sub">Técnicas simples de mindfulness, respiração e autocuidado para o dia a dia.</p>
+      </div>
+
+      <!-- RESPIRAÇÃO -->
+      <div class="vv-card p-4 p-md-5 mb-4">
+        <div class="row align-items-center g-4">
+          <div class="col-md-6 text-center">
+            <div class="breathe-circle mx-auto" id="breatheCircle" onclick="toggleBreathe()">
+              <span style="color:#fff;font-size:.9rem;font-weight:700;text-align:center;padding:.5rem">
+                Toque para<br>respirar
+              </span>
+            </div>
+            <p id="breathe-label" class="mt-3 text-muted fw-bold" style="font-size:.85rem">Pronto para começar</p>
+          </div>
+          <div class="col-md-6">
+            <h4 class="mb-3"><i class="bi bi-wind text-primary-vv me-2"></i>Exercício de Respiração</h4>
+            <p class="text-muted mb-3" style="font-size:.9rem">
+              A respiração controlada ativa o sistema nervoso parassimpático, reduzindo o cortisol e trazendo calma imediata.
+            </p>
+            <ul class="list-unstyled" style="font-size:.9rem">
+              <li class="mb-2"><i class="bi bi-arrow-up-circle text-primary-vv me-2"></i><strong>4 seg</strong> — Inspire pelo nariz</li>
+              <li class="mb-2"><i class="bi bi-pause-circle text-primary-vv me-2"></i><strong>4 seg</strong> — Segure o ar</li>
+              <li class="mb-2"><i class="bi bi-arrow-down-circle text-primary-vv me-2"></i><strong>6 seg</strong> — Expire pela boca</li>
+            </ul>
+            <button class="btn-primary-vv mt-2" onclick="toggleBreathe()">
+              <i class="bi bi-play-circle"></i><span id="breathe-btn-text">Iniciar Respiração</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- HUMOR DO DIA -->
+      <div class="vv-card p-4 mb-4">
+        <h5 class="mb-3"><i class="bi bi-emoji-smile text-primary-vv me-2"></i>Como você está hoje?</h5>
+        <div class="d-flex flex-wrap gap-3" id="mood-grid">
+          <button class="mood-btn" data-mood="😄 Ótimo" onclick="selectMood(this)">😄<br><small>Ótimo</small></button>
+          <button class="mood-btn" data-mood="🙂 Bem" onclick="selectMood(this)">🙂<br><small>Bem</small></button>
+          <button class="mood-btn" data-mood="😐 Neutro" onclick="selectMood(this)">😐<br><small>Neutro</small></button>
+          <button class="mood-btn" data-mood="😔 Triste" onclick="selectMood(this)">😔<br><small>Triste</small></button>
+          <button class="mood-btn" data-mood="😰 Ansioso" onclick="selectMood(this)">😰<br><small>Ansioso</small></button>
+          <button class="mood-btn" data-mood="😤 Irritado" onclick="selectMood(this)">😤<br><small>Irritado</small></button>
+        </div>
+        <p id="mood-msg" class="mt-3 mb-0 text-muted" style="font-size:.9rem"></p>
+      </div>
+
+      <!-- TÉCNICAS -->
+      <h4 class="mb-3 mt-4">Técnicas de Bem-estar Mental</h4>
+      <div class="row g-4">
+
+        <div class="col-md-6 col-lg-4">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon bg-primary-lt mb-3">
+              <i class="bi bi-journals text-primary-vv fs-4"></i>
+            </div>
+            <h5>Diário de Gratidão</h5>
+            <p class="text-muted mb-3" style="font-size:.88rem">Escrever sobre gratidão diariamente ativa o córtex pré-frontal e cria novos padrões de pensamento positivo. A ciência confirma: em 3 semanas já há mudanças mensuráveis no humor.</p>
+            <ul class="tecnica-steps">
+              <li><i class="bi bi-pencil-fill tecnica-icon"></i><span><strong>Escolha um horário fixo</strong> — manhã ou antes de dormir são os mais eficazes.</span></li>
+              <li><i class="bi bi-1-circle-fill tecnica-icon"></i><span>Escreva <strong>3 coisas pelas quais você é grato hoje</strong> — pode ser algo simples como um café gostoso.</span></li>
+              <li><i class="bi bi-2-circle-fill tecnica-icon"></i><span>Para cada item, escreva <strong>por que é grato</strong> — o detalhe aprofunda o efeito.</span></li>
+              <li><i class="bi bi-3-circle-fill tecnica-icon"></i><span>Adicione <strong>uma intenção para amanhã</strong> — um ato de gentileza ou autocuidado.</span></li>
+              <li><i class="bi bi-star-fill tecnica-icon"></i><span>Releia entradas antigas quando estiver em dias difíceis.</span></li>
+            </ul>
+            <div class="tip-highlight mt-3">
+              <strong>Dica:</strong> Não precisa de caderno caro — qualquer papel funciona. O importante é a constância.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#e8f4fd">
+              <i class="bi bi-shield-heart fs-4" style="color:var(--vv-secondary)"></i>
+            </div>
+            <h5>Técnica 5-4-3-2-1</h5>
+            <p class="text-muted mb-3" style="font-size:.88rem">Uma ferramenta de ancoragem sensorial usada em terapia cognitivo-comportamental para interromper ciclos de ansiedade e trazer a mente de volta ao momento presente em menos de 2 minutos.</p>
+            <ul class="tecnica-steps">
+              <li><i class="bi bi-eye-fill tecnica-icon"></i><span><strong>5 coisas que você VÊ</strong> — observe detalhes: cores, formas, texturas ao seu redor.</span></li>
+              <li><i class="bi bi-hand-index-fill tecnica-icon"></i><span><strong>4 coisas que você TOCA</strong> — a cadeira, a roupa, a mesa, o ar na pele.</span></li>
+              <li><i class="bi bi-soundwave tecnica-icon"></i><span><strong>3 coisas que você OUVE</strong> — respire fundo e escute com atenção.</span></li>
+              <li><i class="bi bi-wind tecnica-icon"></i><span><strong>2 coisas que você CHEIRA</strong> — pode ser o ambiente, sua roupa ou um alimento próximo.</span></li>
+              <li><i class="bi bi-heart-fill tecnica-icon"></i><span><strong>1 coisa que você SENTE no corpo</strong> — o ritmo do coração, a temperatura dos pés.</span></li>
+            </ul>
+            <div class="tip-highlight mt-3">
+              <strong>Quando usar:</strong> Em momentos de ansiedade, pânico ou pensamentos acelerados. Funciona em qualquer lugar.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#fff8ec">
+              <i class="bi bi-moon-stars fs-4" style="color:#c87f0a"></i>
+            </div>
+            <h5>Higiene do Sono</h5>
+            <p class="text-muted mb-3" style="font-size:.88rem">O sono é o maior restaurador do cérebro. Dormir mal por uma semana já afeta memória, decisões, imunidade e humor. Criar rituais noturnos é investir em tudo.</p>
+            <ul class="tecnica-steps">
+              <li><i class="bi bi-phone-fill tecnica-icon"></i><span><strong>Desligue as telas 60 min antes</strong> — a luz azul suprime a melatonina.</span></li>
+              <li><i class="bi bi-thermometer-half tecnica-icon"></i><span><strong>Resfrie o quarto</strong> — entre 18°C e 21°C é a temperatura ideal para dormir profundo.</span></li>
+              <li><i class="bi bi-alarm-fill tecnica-icon"></i><span><strong>Acorde sempre no mesmo horário</strong>, inclusive aos fins de semana — isso regula o relógio biológico.</span></li>
+              <li><i class="bi bi-cup-hot-fill tecnika-icon"></i><span><strong>Rituais de desaceleração</strong>: chá de camomila, leitura leve, banho morno.</span></li>
+              <li><i class="bi bi-moon-fill tecnica-icon"></i><span><strong>Evite cafeína após 14h</strong> — ela tem meia-vida de 5-6 horas no organismo.</span></li>
+            </ul>
+            <div class="tip-highlight mt-3">
+              <strong>Fato:</strong> Um banho morno 1h antes de dormir baixa a temperatura corporal após — e isso induz o sono naturalmente.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#f3e8fd">
+              <i class="bi bi-person-arms-up fs-4" style="color:#7d3c98"></i>
+            </div>
+            <h5>Autocompaixão Ativa</h5>
+            <p class="text-muted mb-3" style="font-size:.88rem">Pesquisas da Dra. Kristin Neff mostram que autocompaixão reduz ansiedade e depressão com mais eficácia que a autoestima. Não é fraqueza — é inteligência emocional avançada.</p>
+            <ul class="tecnica-steps">
+              <li><i class="bi bi-chat-heart-fill tecnica-icon"></i><span><strong>Reconheça o sofrimento</strong> sem minimizar: "Isso está sendo difícil para mim."</span></li>
+              <li><i class="bi bi-people-fill tecnica-icon"></i><span><strong>Lembre que você não está sozinho</strong> — sofrimento faz parte da experiência humana.</span></li>
+              <li><i class="bi bi-hand-thumbs-up-fill tecnica-icon"></i><span><strong>Fale consigo como falaria com um amigo</strong> — com gentileza, não com crítica.</span></li>
+              <li><i class="bi bi-journal-text tecnica-icon"></i><span><strong>Escreva uma carta</strong> para si mesmo sobre um erro ou situação difícil, com compaixão.</span></li>
+            </ul>
+            <div class="tip-highlight mt-3">
+              <strong>Prática rápida:</strong> Coloque a mão no peito e diga: "Estou passando por algo difícil. Que eu seja gentil comigo."
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#e8f5ee">
+              <i class="bi bi-flower1 fs-4 text-primary-vv"></i>
+            </div>
+            <h5>Meditação de Varredura Corporal</h5>
+            <p class="text-muted mb-3" style="font-size:.88rem">Body scan é uma das práticas mais estudadas do MBSR (Mindfulness-Based Stress Reduction). Em 10 minutos, reduz o cortisol e libera tensões físicas acumuladas sem perceber.</p>
+            <ul class="tecnica-steps">
+              <li><i class="bi bi-pause-circle-fill tecnica-icon"></i><span><strong>Deite-se ou sente-se</strong> em posição confortável e feche os olhos.</span></li>
+              <li><i class="bi bi-arrow-down-circle-fill tecnica-icon"></i><span><strong>Comece pelos pés</strong>: perceba toda sensação — temperatura, tensão, contato.</span></li>
+              <li><i class="bi bi-arrow-up-circle-fill tecnica-icon"></i><span><strong>Suba gradualmente</strong> — tornozelos, panturrilhas, joelhos, coxas, quadril...</span></li>
+              <li><i class="bi bi-lungs-fill tecnica-icon"></i><span>Continue pelo <strong>abdômen, peito, ombros, braços, pescoço e rosto</strong>.</span></li>
+              <li><i class="bi bi-check-circle-fill tecnica-icon"></i><span>Ao identificar tensão em alguma área, <strong>respire para dentro dela</strong> e solte ao expirar.</span></li>
+            </ul>
+            <div class="tip-highlight mt-3">
+              <strong>Duração ideal:</strong> 10–20 minutos. Pode ser feito antes de dormir para uma noite mais profunda.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#e8f4fd">
+              <i class="bi bi-chat-dots-fill fs-4" style="color:var(--vv-secondary)"></i>
+            </div>
+            <h5>Expressão Emocional</h5>
+            <p class="text-muted mb-3" style="font-size:.88rem">Verbalizar emoções — seja por escrita, conversa ou arte — ativa o córtex pré-frontal e "desativa" a amígdala (centro do medo). Em outras palavras: nomear o sentimento já o reduz.</p>
+            <ul class="tecnica-steps">
+              <li><i class="bi bi-pencil tecnica-icon"></i><span><strong>Escrita livre por 10 min</strong>: escreva tudo que sente sem filtro, sem correção, sem julgamento.</span></li>
+              <li><i class="bi bi-person-fill tecnica-icon"></i><span><strong>Nomeie a emoção com precisão</strong>: não "tô mal", mas "estou frustrado porque..."</span></li>
+              <li><i class="bi bi-headphones tecnica-icon"></i><span><strong>Converse com alguém de confiança</strong> — ou com um profissional de saúde mental.</span></li>
+              <li><i class="bi bi-palette-fill tecnica-icon"></i><span><strong>Use arte</strong>: desenho, música ou movimento como forma de expressão não-verbal.</span></li>
+            </ul>
+            <div class="tip-highlight mt-3">
+              <strong>Lembre:</strong> Pedir ajuda não é fraqueza. É o ato mais corajoso de autocuidado que existe.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-psicologico -->
+
+
+<!-- ============================================================
+     PÁGINA — LAZER
+============================================================ -->
+<div id="page-lazer" class="page">
+  <div class="pt-navbar">
+    <div class="container-xl py-5">
+      <div class="page-header">
+        <span class="chip" style="background:#f3e8fd;color:#7d3c98">Bem-estar Criativo</span>
+        <h1 class="section-title mt-2">Tempo de <em class="text-primary-vv">descanso</em> e alegria.</h1>
+        <p class="section-sub">O lazer não é luxo — é necessidade. Recarregue as energias com atividades que nutrem a alma.</p>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterCards('lazer', 'todos', this)">Todos</button>
+        <button class="filter-btn" onclick="filterCards('lazer', 'criativo', this)">Criativo</button>
+        <button class="filter-btn" onclick="filterCards('lazer', 'social', this)">Social</button>
+        <button class="filter-btn" onclick="filterCards('lazer', 'solitario', this)">Solitário</button>
+        <button class="filter-btn" onclick="filterCards('lazer', 'ar-livre', this)">Ar Livre</button>
+      </div>
+
+      <div class="row g-4">
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="criativo">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#f3e8fd;font-size:2rem">🎨</div>
+            <span class="category-badge mb-2" style="background:#f3e8fd;color:#7d3c98">Criativo</span>
+            <h5 class="mt-2">Desenho e Aquarela</h5>
+            <p class="text-muted" style="font-size:.88rem">Arte como terapia. Não precisa de talento — o processo de criar já transforma o estado mental.</p>
+            <div class="lazer-benefits">
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Reduz ansiedade e pensamentos acelerados</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Estimula criatividade e resolução de problemas</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Produz estado de fluxo ("flow") meditativo</span></div>
+            </div>
+            <div class="lazer-start-box">
+              <strong>🚀 Como começar hoje</strong>
+              <p>Compre um bloco de papel A4 e um conjunto básico de aquarelas ou lápis de cor. Comece copiando algo simples à sua frente — uma fruta, uma planta, uma xícara. Não julgue o resultado; o objetivo é o processo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="solitario">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#e8f4fd;font-size:2rem">📚</div>
+            <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Solitário</span>
+            <h5 class="mt-2">Leitura Imersiva</h5>
+            <p class="text-muted" style="font-size:.88rem">6 minutos de leitura reduzem o estresse em 68% (Univ. de Sussex). É o relaxamento mais subestimado.</p>
+            <div class="lazer-benefits">
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Reduz estresse mais que música ou caminhada</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Expande vocabulário e empatia</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Melhora o sono quando feita antes de dormir</span></div>
+            </div>
+            <div class="lazer-start-box">
+              <strong>🚀 Como começar hoje</strong>
+              <p>Escolha um gênero que você genuinamente gosta — thriller, fantasia, autoajuda, história. Reserve 15 min antes de dormir, sem celular por perto. Não force livros "que deveria ler". Leia o que te dá prazer.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="social">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:var(--vv-primary-lt);font-size:2rem">🎲</div>
+            <span class="category-badge mb-2" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Social</span>
+            <h5 class="mt-2">Jogos de Tabuleiro</h5>
+            <p class="text-muted" style="font-size:.88rem">Conexão real, risadas genuínas e raciocínio aguçado — tudo sem precisar de uma tela.</p>
+            <div class="lazer-benefits">
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Fortalece vínculos e pertencimento</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Exercita memória, estratégia e foco</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Combate solidão e isolamento social</span></div>
+            </div>
+            <div class="lazer-start-box">
+              <strong>🚀 Como começar hoje</strong>
+              <p>Convide família ou amigos para uma noite de jogos. Para iniciantes: Uno, Dobble, Dixit ou Ticket to Ride são ótimas pedidas. Para quem já joga: Catan, Pandemic ou Azul. Uma noite por semana já transforma os laços.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="ar-livre">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#e8f5ee;font-size:2rem">🌿</div>
+            <span class="category-badge mb-2" style="background:#e8f5ee;color:var(--vv-primary)">Ar Livre</span>
+            <h5 class="mt-2">Jardinagem e Horta</h5>
+            <p class="text-muted" style="font-size:.88rem">Cuidar de plantas reduz o cortisol, traz propósito e reconecta com ritmos naturais esquecidos na vida urbana.</p>
+            <div class="lazer-benefits">
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Reduz cortisol e pressão arterial</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Gera senso de responsabilidade e conquista</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Bactéria do solo estimula serotonina naturalmente</span></div>
+            </div>
+            <div class="lazer-start-box">
+              <strong>🚀 Como começar hoje</strong>
+              <p>Comece com uma única planta de baixa manutenção: zamioculca, suculenta ou cebolinha numa garrafinha. Sem espaço? Um vasinho na janela já conta. A horta pode vir depois — o importante é começar a cuidar de algo vivo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="criativo">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#fff8ec;font-size:2rem">🎵</div>
+            <span class="category-badge mb-2" style="background:#fff8ec;color:#c87f0a">Criativo</span>
+            <h5 class="mt-2">Música e Instrumento</h5>
+            <p class="text-muted" style="font-size:.88rem">Tocar um instrumento é uma das atividades mais completas para o cérebro — ativa memória, coordenação, emoção e criatividade ao mesmo tempo.</p>
+            <div class="lazer-benefits">
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Libera dopamina e reduz o estresse</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Aumenta a plasticidade neural</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Melhora memória e coordenação motora fina</span></div>
+            </div>
+            <div class="lazer-start-box">
+              <strong>🚀 Como começar hoje</strong>
+              <p>Ukulelê e violão são os mais acessíveis para iniciantes. Existem tutoriais gratuitos no YouTube para aprender as primeiras músicas em dias. Não é preciso saber ler partitura — comece por uma música que você ama.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 card-item" data-cat="ar-livre">
+          <div class="vv-card h-100 p-4">
+            <div class="vv-card-icon mb-3" style="background:#e8f4fd;font-size:2rem">🚴</div>
+            <span class="category-badge mb-2" style="background:#e8f4fd;color:var(--vv-secondary)">Ar Livre</span>
+            <h5 class="mt-2">Passeio de Bicicleta</h5>
+            <p class="text-muted" style="font-size:.88rem">Explorar a cidade de bicicleta é ao mesmo tempo exercício, meditação em movimento e redescoberta do próprio bairro.</p>
+            <div class="lazer-benefits">
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Cardio de baixo impacto nas articulações</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Libera endorfinas e melhora o humor</span></div>
+              <div class="lazer-benefit-item"><i class="bi bi-check-circle-fill"></i><span>Reduz estresse e estimula criatividade</span></div>
+            </div>
+            <div class="lazer-start-box">
+              <strong>🚀 Como começar hoje</strong>
+              <p>Escolha um parque próximo ou uma ciclovia na sua cidade. Vá sem destino fixo — o objetivo é o passeio em si. Se não tem bicicleta, muitas cidades têm sistemas de aluguel por aplicativo. Comece com 30 minutos num final de semana.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-lazer -->
+
+
+<!-- ============================================================
+     PÁGINA — DICA
+============================================================ -->
+<div id="page-dica" class="page">
+  <div class="pt-navbar">
+    <div class="container-xl py-5">
+      <div class="page-header">
+        <span class="chip" style="background:#fff8ec;color:#c87f0a">Conhecimento Prático</span>
+        <h1 class="section-title mt-2">Dicas para o <em class="text-primary-vv">dia a dia.</em></h1>
+        <p class="section-sub">Pequenas ações com grande impacto. Escolha uma categoria e descubra o que pode mudar hoje.</p>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterDicas('todas', this)">Todas</button>
+        <button class="filter-btn" onclick="filterDicas('corpo', this)">Corpo</button>
+        <button class="filter-btn" onclick="filterDicas('mente', this)">Mente</button>
+        <button class="filter-btn" onclick="filterDicas('alimentacao', this)">Alimentação</button>
+        <button class="filter-btn" onclick="filterDicas('sono', this)">Sono</button>
+      </div>
+
+      <!-- DICA DO DIA -->
+      <div class="vv-card p-4 mb-4" style="background:linear-gradient(135deg,#3d7a5e,#5b9e7e);color:#fff">
+        <div class="d-flex align-items-start gap-3">
+          <div style="font-size:2.5rem">💡</div>
+          <div>
+            <h5 style="color:#fff" class="mb-1">Dica do Dia</h5>
+            <p class="mb-2" id="dica-do-dia" style="font-size:1rem;opacity:.95">
+              Carregando…
+            </p>
+            <button class="btn-accent" onclick="novaDicaDoDia()">
+              <i class="bi bi-arrow-clockwise"></i>Nova Dica
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCORDION DE DICAS -->
+      <div class="accordion dica-accordion" id="dicasAccordion">
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="corpo">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica1">
+              <i class="bi bi-droplet-fill text-primary-vv me-3"></i>
+              <strong>Corpo:</strong>&nbsp;A importância de beber água
+            </button>
+          </h2>
+          <div id="dica1" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              O corpo humano é composto por 60–70% de água. A desidratação, mesmo leve (1–2%), já afeta concentração, humor e desempenho físico.
+              Beba ao menos 2 litros por dia — espalhe ao longo das horas, não deixe para beber tudo de uma vez.
+              <br><br>
+              <strong>Dica rápida:</strong> Deixe uma garrafa na sua mesa como lembrete visual.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="corpo">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica2">
+              <i class="bi bi-sun text-primary-vv me-3"></i>
+              <strong>Corpo:</strong>&nbsp;Exposição solar e vitamina D
+            </button>
+          </h2>
+          <div id="dica2" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              15–20 minutos de sol diário, preferencialmente pela manhã, garantem vitamina D essencial para ossos, imunidade e humor.
+              Não é preciso pegar muito sol — consistência é o que importa.
+              <br><br>
+              <strong>Dica rápida:</strong> Tome seu café da manhã na varanda ou próximo a uma janela.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="mente">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica3">
+              <i class="bi bi-phone-vibrate text-primary-vv me-3"></i>
+              <strong>Mente:</strong>&nbsp;Detox digital diário
+            </button>
+          </h2>
+          <div id="dica3" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              O excesso de telas aumenta a ansiedade e prejudica o sono. Reserve ao menos 1h por dia longe de celular e redes sociais.
+              Esse tempo pode ser preenchido com leitura, caminhada ou simplesmente descanso consciente.
+              <br><br>
+              <strong>Dica rápida:</strong> Ative o "Não perturbe" após as 21h.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="mente">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica4">
+              <i class="bi bi-chat-heart text-primary-vv me-3"></i>
+              <strong>Mente:</strong>&nbsp;Falar sobre como você se sente
+            </button>
+          </h2>
+          <div id="dica4" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              Verbalizar sentimentos e emoções — seja para um amigo, familiar ou profissional — reduz a carga mental e ajuda a processar experiências difíceis.
+              Pedir ajuda não é fraqueza; é inteligência emocional.
+              <br><br>
+              <strong>Dica rápida:</strong> Envie uma mensagem para alguém de confiança hoje.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="alimentacao">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica5">
+              <i class="bi bi-egg-fried text-primary-vv me-3"></i>
+              <strong>Alimentação:</strong>&nbsp;Proteína no café da manhã
+            </button>
+          </h2>
+          <div id="dica5" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              Incluir proteína no café da manhã (ovos, iogurte grego, queijo branco) aumenta a saciedade, reduz a compulsão alimentar ao longo do dia e sustenta os níveis de energia.
+              <br><br>
+              <strong>Dica rápida:</strong> Substitua o pão com manteiga por pão com ovo mexido.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="alimentacao">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica6">
+              <i class="bi bi-flower2 text-primary-vv me-3"></i>
+              <strong>Alimentação:</strong>&nbsp;Coma mais cores no prato
+            </button>
+          </h2>
+          <div id="dica6" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              Cada cor nos alimentos representa nutrientes diferentes. Um prato colorido é um prato equilibrado.
+              Vermelho (tomate, pimentão), laranja (cenoura, abóbora), verde (brócolis, rúcula), roxo (beterraba, repolho roxo).
+              <br><br>
+              <strong>Dica rápida:</strong> Tente colocar ao menos 3 cores diferentes no seu próximo prato.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="sono">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica7">
+              <i class="bi bi-moon-stars text-primary-vv me-3"></i>
+              <strong>Sono:</strong>&nbsp;Temperatura ideal para dormir
+            </button>
+          </h2>
+          <div id="dica7" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              O quarto deve estar entre 18°C e 21°C para um sono profundo de qualidade.
+              Quando o corpo esfria, libera melatonina com mais facilidade, facilitando o adormecer.
+              <br><br>
+              <strong>Dica rápida:</strong> Tome um banho morno 1h antes de dormir — a queda de temperatura corporal após o banho induz o sono.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item border-0 vv-card mb-2 dica-item" data-cat="sono">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed rounded-3" type="button"
+              data-bs-toggle="collapse" data-bs-target="#dica8">
+              <i class="bi bi-alarm text-primary-vv me-3"></i>
+              <strong>Sono:</strong>&nbsp;Horário fixo de acordar
+            </button>
+          </h2>
+          <div id="dica8" class="accordion-collapse collapse" data-bs-parent="#dicasAccordion">
+            <div class="accordion-body text-muted" style="font-size:.9rem">
+              Manter o mesmo horário de acordar todos os dias (inclusive fins de semana) é o hábito mais importante para regular o relógio biológico.
+              Isso melhora a qualidade do sono mais do que qualquer suplemento.
+              <br><br>
+              <strong>Dica rápida:</strong> Defina um alarme fixo e resista ao botão de soneca por 2 semanas.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /accordion -->
+    </div>
+  </div>
+</div><!-- /page-dica -->
+
+
+<!-- ============================================================
+     PÁGINA — CONTATO
+============================================================ -->
+<div id="page-contato" class="page">
+  <div class="pt-navbar">
+    <div class="container-xl py-5">
+      <div class="page-header">
+        <span class="chip" style="background:var(--vv-primary-lt);color:var(--vv-primary)">Suporte</span>
+        <h1 class="section-title mt-2">Fale <em class="text-primary-vv">conosco.</em></h1>
+        <p class="section-sub">Tem dúvidas, sugestões ou quer compartilhar sua história? Adoramos ouvir você.</p>
+      </div>
+
+      <div class="row g-5">
+        <div class="col-lg-6">
+          <div class="vv-card p-4 p-md-5">
+            <form id="contato-form" onsubmit="submitContato(event)">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Seu nome</label>
+                <input type="text" class="form-control" placeholder="Como posso te chamar?" required
+                  style="border-radius:12px;padding:.8rem 1rem;border:1.5px solid var(--vv-border)" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">E-mail</label>
+                <input type="email" class="form-control" placeholder="seu@email.com" required
+                  style="border-radius:12px;padding:.8rem 1rem;border:1.5px solid var(--vv-border)" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Assunto</label>
+                <select class="form-select" style="border-radius:12px;padding:.8rem 1rem;border:1.5px solid var(--vv-border)">
+                  <option>Dúvida sobre exercícios</option>
+                  <option>Dúvida sobre alimentação</option>
+                  <option>Saúde mental</option>
+                  <option>Sugestão de conteúdo</option>
+                  <option>Outro</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Mensagem</label>
+                <textarea class="form-control" rows="5" placeholder="Escreva aqui sua mensagem…" required
+                  style="border-radius:12px;padding:.8rem 1rem;border:1.5px solid var(--vv-border);resize:vertical"></textarea>
+              </div>
+              <button type="submit" class="btn-primary-vv w-100 justify-content-center">
+                <i class="bi bi-send"></i>Enviar Mensagem
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-6 d-flex flex-column gap-4 justify-content-center">
+          <div class="vv-card p-4 d-flex gap-3 align-items-start">
+            <div class="vv-card-icon bg-primary-lt flex-shrink-0">
+              <i class="bi bi-envelope text-primary-vv fs-5"></i>
+            </div>
+            <div>
+              <h6 class="mb-1">E-mail</h6>
+              <p class="text-muted mb-0" style="font-size:.9rem">contato@vivahoje.com.br</p>
+            </div>
+          </div>
+          <div class="vv-card p-4 d-flex gap-3 align-items-start">
+            <div class="vv-card-icon bg-primary-lt flex-shrink-0">
+              <i class="bi bi-instagram text-primary-vv fs-5"></i>
+            </div>
+            <div>
+              <h6 class="mb-1">Redes Sociais</h6>
+              <p class="text-muted mb-0" style="font-size:.9rem">@vivahoje • Dicas diárias de bem-estar</p>
+            </div>
+          </div>
+          <div class="vv-card p-4" style="background:var(--vv-primary-lt)">
+            <h6 class="text-primary-vv mb-2"><i class="bi bi-shield-check me-2"></i>Privacidade</h6>
+            <p class="text-muted mb-0" style="font-size:.88rem">Seus dados nunca serão compartilhados. Respondemos em até 48 horas úteis.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-contato -->
+
+
+<!-- ============================================================
+     MODAL — EXERCÍCIO (preenchido via JS)
+============================================================ -->
+<div class="vv-modal-overlay" id="exercise-overlay" onclick="closeExercise(event)">
+  <div class="vv-modal" id="exercise-modal">
+    <button class="vv-modal-close" onclick="closeExerciseBtn()"><i class="bi bi-x-lg"></i></button>
+    <div id="exercise-modal-content"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL — RECEITA (preenchido via JS)
+============================================================ -->
+<div class="vv-modal-overlay" id="recipe-overlay" onclick="closeRecipe(event)">
+  <div class="vv-modal" id="recipe-modal">
+    <button class="vv-modal-close" onclick="closeRecipeBtn()"><i class="bi bi-x-lg"></i></button>
+    <div id="recipe-modal-content"></div>
+  </div>
+</div>
+
+<!-- ========================
+     FOOTER
+======================== -->
+<footer>
+  <div class="container-xl">
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <h5 class="mb-3"><i class="bi bi-heart-pulse-fill me-2" style="color:#62c08b"></i>Viva Hoje</h5>
+        <p style="font-size:.88rem;opacity:.75;max-width:280px">Informação prática e acolhedora para quem quer cuidar melhor de si mesmo. Para pacientes, curiosos e pessoas comuns.</p>
+      </div>
+      <div class="col-md-2">
+        <h5 class="mb-3" style="font-size:.95rem">Conteúdo</h5>
+        <a href="#" onclick="showPage('exercicio')">Exercício</a>
+        <a href="#" onclick="showPage('alimentacao')">Alimentação</a>
+        <a href="#" onclick="showPage('rotina')">Rotina</a>
+        <a href="#" onclick="showPage('psicologico')">Psicológico</a>
+      </div>
+      <div class="col-md-2">
+        <h5 class="mb-3" style="font-size:.95rem">Mais</h5>
+        <a href="#" onclick="showPage('lazer')">Lazer</a>
+        <a href="#" onclick="showPage('dica')">Dicas</a>
+        <a href="#" onclick="showPage('contato')">Fale Conosco</a>
+      </div>
+      <div class="col-md-4">
+        <h5 class="mb-3" style="font-size:.95rem">Aviso Importante</h5>
+        <p style="font-size:.82rem;opacity:.6;line-height:1.6">
+          O conteúdo deste portal é informativo e educacional. Não substitui consulta médica, nutricional ou psicológica.
+          Sempre consulte um profissional de saúde.
+        </p>
+      </div>
+    </div>
+    <hr style="border-color:rgba(255,255,255,.1)" />
+    <p class="text-center mb-0" style="font-size:.82rem;opacity:.5">
+      © 2025 Viva Hoje — Feito com cuidado para o seu bem-estar.
+    </p>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+  /* Mood buttons */
+  .mood-btn {
+    background: var(--vv-surface);
+    border: 2px solid var(--vv-border);
+    border-radius: 16px;
+    padding: .8rem 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    text-align: center;
+    min-width: 80px;
+    transition: border-color .2s, background .2s, transform .15s;
+    line-height: 1.4;
+  }
+  .mood-btn small { display: block; font-size: .7rem; font-weight: 600; color: var(--vv-muted); }
+  .mood-btn:hover { border-color: var(--vv-primary); background: var(--vv-primary-lt); transform: scale(1.06); }
+  .mood-btn.selected { border-color: var(--vv-primary); background: var(--vv-primary-lt); }
+</style>
+
+<script>
+/* ========================================
+   NAVEGAÇÃO SPA
+======================================== */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Atualiza nav links ativos
+  document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+    link.classList.toggle('active', link.dataset.page === id);
+  });
+
+  // Fecha menu mobile se aberto
+  const collapse = document.getElementById('navMenu');
+  if (collapse && collapse.classList.contains('show')) {
+    bootstrap.Collapse.getInstance(collapse)?.hide();
+  }
+}
+
+/* ========================================
+   NAVBAR — EFEITO SCROLL
+======================================== */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('main-navbar');
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+/* ========================================
+   TOAST
+======================================== */
+let toastTimer;
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.toggle('toast-error', isError);
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ========================================
+   FILTRO DE CARDS (Exercício, Alimentação, Lazer)
+======================================== */
+function filterCards(page, cat, btn) {
+  // Atualiza botão ativo
+  const pageEl = document.getElementById('page-' + page);
+  if (!pageEl) return;
+  pageEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  pageEl.querySelectorAll('.card-item').forEach(card => {
+    const show = cat === 'todos' || card.dataset.cat === cat;
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+/* ========================================
+   FILTRO DE DICAS
+======================================== */
+function filterDicas(cat, btn) {
+  document.querySelectorAll('#page-dica .filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  document.querySelectorAll('.dica-item').forEach(item => {
+    const show = cat === 'todas' || item.dataset.cat === cat;
+    item.style.display = show ? '' : 'none';
+  });
+}
+
+/* ========================================
+   ROTINA INTERATIVA
+======================================== */
+const defaultRotina = [
+  { label: '🌅 Acordar e se alongar', time: '06:30', done: false },
+  { label: '💧 Beber 2 copos de água', time: '07:00', done: false },
+  { label: '🥗 Café da manhã saudável', time: '07:30', done: false },
+  { label: '🧘 10 min de meditação',   time: '08:00', done: false },
+  { label: '🏃 Exercício físico',       time: '09:00', done: false },
+  { label: '📖 Leitura 20 minutos',    time: '20:00', done: false },
+  { label: '🌙 Preparar para dormir',  time: '22:00', done: false },
+];
+
+let rotinaItems = JSON.parse(localStorage.getItem('vivahoje_rotina') || 'null') || defaultRotina;
+
+function saveRotina() {
+  localStorage.setItem('vivahoje_rotina', JSON.stringify(rotinaItems));
+}
+
+function renderRotina() {
+  const list = document.getElementById('rotina-list');
+  if (!list) return;
+  list.innerHTML = '';
+
+  rotinaItems.forEach((item, i) => {
+    const li = document.createElement('li');
+    li.className = 'rotina-item' + (item.done ? ' done' : '');
+    li.innerHTML = `
+      <button class="rotina-check-btn${item.done ? ' checked' : ''}" onclick="toggleRotinaItem(${i})">
+        ${item.done ? '<i class="bi bi-check"></i>' : ''}
+      </button>
+      <span class="rotina-label">${item.label}</span>
+      ${item.time ? `<span class="rotina-time">${item.time}</span>` : ''}
+      <button class="rotina-del" onclick="removeRotinaItem(${i})" title="Remover">
+        <i class="bi bi-x"></i>
+      </button>
+    `;
+    list.appendChild(li);
+  });
+
+  updateRotinaProgress();
+}
+
+function updateRotinaProgress() {
+  const total = rotinaItems.length;
+  const done  = rotinaItems.filter(x => x.done).length;
+  const pct   = total === 0 ? 0 : Math.round((done / total) * 100);
+
+  document.getElementById('rotina-progress').style.width = pct + '%';
+  document.getElementById('rotina-pct-text').textContent = pct + '%';
+  document.getElementById('rotina-done-count').textContent = done;
+  document.getElementById('rotina-total-count').textContent = total;
+}
+
+function toggleRotinaItem(i) {
+  rotinaItems[i].done = !rotinaItems[i].done;
+  saveRotina();
+  renderRotina();
+  if (rotinaItems[i].done) showToast('✅ Atividade concluída!');
+}
+
+function removeRotinaItem(i) {
+  rotinaItems.splice(i, 1);
+  saveRotina();
+  renderRotina();
+}
+
+function addRotinaItem(e) {
+  e.preventDefault();
+  const input = document.getElementById('add-rotina-input');
+  const timeEl = document.getElementById('add-rotina-time');
+  const label = input.value.trim();
+  if (!label) return;
+  rotinaItems.push({ label, time: timeEl.value || '', done: false });
+  saveRotina();
+  renderRotina();
+  input.value = '';
+  timeEl.value = '';
+  showToast('✅ Atividade adicionada!');
+}
+
+function addSugestao(label, time) {
+  rotinaItems.push({ label, time, done: false });
+  saveRotina();
+  renderRotina();
+  showPage('rotina');
+  showToast('✅ "' + label + '" adicionado!');
+}
+
+/* ========================================
+   HIDRATAÇÃO
+======================================== */
+let waterCount = 0;
+
+function renderWater() {
+  const grid = document.getElementById('water-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  for (let i = 0; i < 8; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'water-btn' + (i < waterCount ? ' filled' : '');
+    btn.textContent = '💧';
+    btn.title = i < waterCount ? 'Clique para desmarcar' : 'Clique para marcar';
+    btn.onclick = () => {
+      waterCount = i < waterCount ? i : i + 1;
+      renderWater();
+    };
+    grid.appendChild(btn);
+  }
+  document.getElementById('water-count').textContent = waterCount;
+  const pct = Math.round((waterCount / 8) * 100);
+  document.getElementById('hydro-pct').textContent = pct + '%';
+  // SVG stroke
+  const dashOffset = 251.2 - (251.2 * pct / 100);
+  const circle = document.getElementById('hydro-circle');
+  if (circle) circle.style.strokeDashoffset = dashOffset;
+  if (waterCount === 8) showToast('🎉 Meta de hidratação atingida! Parabéns!');
+}
+
+/* ========================================
+   EXERCÍCIO DE RESPIRAÇÃO
+======================================== */
+let breatheActive = false;
+let breatheInterval;
+
+function toggleBreathe() {
+  breatheActive = !breatheActive;
+  const circle = document.getElementById('breatheCircle');
+  const label  = document.getElementById('breathe-label');
+  const btn    = document.getElementById('breathe-btn-text');
+
+  if (breatheActive) {
+    circle.classList.add('animating');
+    btn.textContent = 'Pausar Respiração';
+    const steps = ['Inspire… (4s)', 'Segure… (4s)', 'Expire… (6s)', 'Segure… (2s)'];
+    let si = 0;
+    label.textContent = steps[0];
+    const timings = [4000, 4000, 6000, 2000];
+    let elapsed = 0;
+
+    clearInterval(breatheInterval);
+    breatheInterval = setInterval(() => {
+      elapsed += 500;
+      if (elapsed >= timings[si]) {
+        elapsed = 0;
+        si = (si + 1) % steps.length;
+        label.textContent = steps[si];
+      }
+    }, 500);
+  } else {
+    circle.classList.remove('animating');
+    btn.textContent = 'Iniciar Respiração';
+    label.textContent = 'Pronto para começar';
+    clearInterval(breatheInterval);
+  }
+}
+
+/* ========================================
+   HUMOR DO DIA
+======================================== */
+const moodMessages = {
+  '😄 Ótimo':   'Que ótimo! Aproveite essa energia positiva e compartilhe com quem está ao seu redor.',
+  '🙂 Bem':     'Que bom! Mantenha os bons hábitos de hoje e cuide do seu bem-estar.',
+  '😐 Neutro':  'Tudo bem se sentir assim. Que tal uma atividade leve para animar um pouco o dia?',
+  '😔 Triste':  'Sentir tristeza é humano. Converse com alguém de confiança ou tente um exercício de respiração.',
+  '😰 Ansioso': 'Respire fundo. Vá para a aba Psicológico e tente o exercício de respiração guiada.',
+  '😤 Irritado':'Reserve um momento para você. Uma caminhada curta pode ajudar a clarear a mente.',
+};
+
+function selectMood(btn) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const mood = btn.dataset.mood;
+  document.getElementById('mood-msg').textContent = moodMessages[mood] || '';
+  showToast('Humor registrado: ' + mood);
+}
+
+/* ========================================
+   DICA DO DIA
+======================================== */
+const dicasList = [
+  'Beba um copo de água antes de qualquer refeição para melhorar a digestão e controlar o apetite.',
+  'Caminhe 10 minutos após o almoço — isso estabiliza a glicose no sangue e melhora a energia à tarde.',
+  'Sorria para o espelho de manhã: o cérebro libera endorfinas mesmo quando o sorriso é forçado.',
+  'Mastigue devagar. O estômago leva 20 min para avisar que está cheio — não corrija o excesso depois.',
+  'Desligue as notificações por 1h e observe sua produtividade e calma aumentarem.',
+  'Durma sempre no mesmo horário para regular o relógio biológico — isso vale mais que horas extras de sono.',
+  'Passe tempo na natureza: mesmo um parque urbano já reduz o cortisol em minutos.',
+  'Ligue para alguém de quem você sente falta. Conexões sociais são o principal fator de longevidade.',
+  'Abra a janela ao trabalhar — luz natural aumenta o foco e regula o humor ao longo do dia.',
+  'Experimente escrever 3 coisas boas que aconteceram hoje antes de dormir.',
+];
+let dicaIndex = Math.floor(Math.random() * dicasList.length);
+
+function renderDicaDoDia() {
+  const el = document.getElementById('dica-do-dia');
+  if (el) el.textContent = dicasList[dicaIndex];
+}
+
+function novaDicaDoDia() {
+  dicaIndex = (dicaIndex + 1) % dicasList.length;
+  renderDicaDoDia();
+  showToast('Nova dica carregada! 💡');
+}
+
+/* ========================================
+   FORMULÁRIO DE CONTATO
+======================================== */
+function submitContato(e) {
+  e.preventDefault();
+  showToast('✅ Mensagem enviada com sucesso! Responderemos em breve.');
+  e.target.reset();
+}
+
+/* ========================================
+   INICIALIZAÇÃO
+======================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  renderRotina();
+  renderWater();
+  renderDicaDoDia();
+});
+
+/* ========================================
+   DADOS DOS EXERCÍCIOS
+======================================== */
+const exerciseData = {
+  pilates: {
+    title: 'Pilates para Iniciantes',
+    emoji: '🧘',
+    duration: '15 min',
+    level: 'Iniciante',
+    levelColor: 'var(--vv-primary)',
+    levelBg: 'var(--vv-primary-lt)',
+    intro: 'O Pilates trabalha o fortalecimento do core, a postura e a consciência corporal através de movimentos controlados e respiração coordenada. Ideal para quem quer começar com segurança.',
+    steps: [
+      'Deite-se de costas num colchonete com joelhos dobrados e pés apoiados no chão, afastados na largura do quadril.',
+      'Respire fundo pelo nariz e, ao expirar, contraia o abdômen como se fosse "levar o umbigo em direção à coluna". Faça 5 repetições para ativar o core.',
+      'Inspire erguendo os braços acima da cabeça lentamente. Ao expirar, retorne. Repita 10 vezes mantendo o abdômen ativado.',
+      'Eleve uma perna até 90° (canela paralela ao teto), segure 3 segundos e desça com controle. Alterne as pernas — 8 repetições cada.',
+      'Com as pernas elevadas em 90°, faça pequenos círculos com os tornozelos por 20 segundos em cada direção.',
+      'Finalize: leve os joelhos juntos para o lado direito (torção), segure 10 segundos, volte ao centro. Repita para o lado esquerdo.',
+    ],
+    tips: 'Nunca force além do confortável. Em Pilates, qualidade do movimento sempre supera quantidade. Se sentir dor (não tensão), pare e descanse.',
+    benefits: ['Fortalece o core', 'Melhora a postura', 'Reduz dores nas costas', 'Aumenta a flexibilidade', 'Melhora a respiração'],
+  },
+  caminhada: {
+    title: 'Caminhada Meditativa',
+    emoji: '🚶',
+    duration: '30 min',
+    level: 'Iniciante',
+    levelColor: 'var(--vv-primary)',
+    levelBg: 'var(--vv-primary-lt)',
+    intro: 'A caminhada meditativa é uma forma de meditação em movimento — une exercício físico à atenção plena. É perfeita para quem tem dificuldade de meditar parado e quer integrar bem-estar à rotina sem precisar de espaço ou equipamento.',
+    steps: [
+      'Escolha um lugar tranquilo: parque, jardim, praça ou até um corredor comprido. Vista calçados confortáveis.',
+      'Antes de começar, fique parado por 1 minuto. Feche os olhos, respire fundo 3 vezes e solte qualquer pressa.',
+      'Comece a caminhar num ritmo ligeiramente mais lento que o normal — não é passeio de pressa, é de presença.',
+      'Concentre toda a atenção na sensação física: o calcanhar tocando o chão, a planta do pé, os dedos se erguendo.',
+      'Observe os sons ao redor sem julgar: pássaros, vento, vozes, tráfego. Apenas perceba sem se apegar.',
+      'Quando a mente divagar (e vai!), gentilmente traga a atenção de volta para os pés e a respiração.',
+      'Nos últimos 5 minutos, diminua ainda mais o ritmo. Observe cores, texturas e detalhes que normalmente passam despercebidos.',
+    ],
+    tips: 'Deixe o celular no bolso (ou em casa). O objetivo é estar 100% presente — não cobrir distância nem bater metas.',
+    benefits: ['Reduz ansiedade', 'Melhora o foco', 'Une exercício e meditação', 'Pode ser feita em qualquer lugar', 'Grátis e sem equipamento'],
+  },
+  alongamento: {
+    title: 'Alongamento Matinal',
+    emoji: '☀️',
+    duration: '10 min',
+    level: 'Iniciante',
+    levelColor: 'var(--vv-primary)',
+    levelBg: 'var(--vv-primary-lt)',
+    intro: 'Durante o sono, os músculos ficam comprimidos e a circulação desacelera. Alongar logo ao acordar ativa o sangue, libera tensões noturnas e libera endorfinas — é a transição mais gentil que existe do descanso para a ação.',
+    steps: [
+      'Ainda deitado: estique os braços acima da cabeça e aponte os pés, como um bocejo de corpo inteiro. Segure 5 segundos. Repita 3 vezes.',
+      'Abrace os joelhos contra o peito, rolando levemente para os lados. Segure 20 segundos para soltar a lombar.',
+      'Em pé, entrelace os dedos acima da cabeça e se estique para o alto, subindo nas pontas dos pés. Segure 10 segundos.',
+      'Incline suavemente o pescoço para a direita, com a mão direita puxando levemente. Segure 15 segundos. Repita para a esquerda.',
+      'Cruzando um braço à frente do peito, pressione com o antebraço oposto. Segure 20 segundos. Troque de braço.',
+      'Flexione o joelho direito e puxe o calcanhar até o glúteo com a mão. Segure 20 segundos. Troque de perna.',
+      'Com pernas abertas, curve o tronco para frente e deixe os braços pendular livremente. Segure 30 segundos e suba devagar.',
+    ],
+    tips: 'Respire durante todo o alongamento — nunca prenda a respiração. Vá apenas até o ponto de tensão agradável, nunca até a dor.',
+    benefits: ['Ativa a circulação', 'Libera tensão noturna', 'Libera endorfinas', 'Prepara o corpo para o dia', 'Melhora a disposição'],
+  },
+  yoga: {
+    title: 'Yoga Restaurativa',
+    emoji: '🕊️',
+    duration: '45 min',
+    level: 'Intermediário',
+    levelColor: 'var(--vv-secondary)',
+    levelBg: '#e8f4fd',
+    intro: 'O Yoga Restaurativo usa posturas passivas mantidas por 3 a 10 minutos, com suporte de almofadas e cobertores, para liberar tensões profundas. É o antídoto perfeito para o estresse crônico — não exige esforço, exige entrega.',
+    steps: [
+      'Postura da Criança (Balasana): ajoelhe-se, sente sobre os calcanhares e estenda os braços à frente ou ao longo do corpo. Apoie a testa no chão. Segure 5 minutos respirando profundamente.',
+      'Pernas na Parede (Viparita Karani): sente de lado encostado à parede e suba as pernas estendidas contra ela. Fique 5 minutos. Isso drena o cansaço das pernas e acalma o sistema nervoso.',
+      'Torção Supina: deitado, leve o joelho direito dobrado para o lado esquerdo, olhe para o lado direito. Coloque uma almofada sob o joelho se precisar. Segure 4 minutos. Troque de lado.',
+      'Borboleta Reclinada (Supta Baddha Konasana): deitado, junte as plantas dos pés e deixe os joelhos abrirem. Apoie almofadas sob cada joelho para conforto. Segure 5 minutos.',
+      'Savasana: deitado de costas, braços levemente afastados, palmas para cima. Solte conscientemente cada parte do corpo da cabeça aos pés. Permaneça 5–10 minutos em silêncio.',
+    ],
+    tips: 'Use almofadas, cobertores dobrados e toalhas para suporte. O conforto total é essencial — você deve conseguir relaxar completamente sem nenhum esforço muscular.',
+    benefits: ['Libera tensões profundas', 'Reduz o cortisol', 'Melhora a qualidade do sono', 'Acalma o sistema nervoso', 'Desenvolve consciência corporal'],
+  },
+  funcional: {
+    title: 'Treino Funcional Leve',
+    emoji: '💪',
+    duration: '35 min',
+    level: 'Intermediário',
+    levelColor: 'var(--vv-secondary)',
+    levelBg: '#e8f4fd',
+    intro: 'O treino funcional trabalha padrões de movimento do cotidiano — agachar, puxar, empurrar, girar — para ganho de força prática, equilíbrio e coordenação. Sem equipamentos, pode ser feito em casa.',
+    steps: [
+      'Aquecimento (5 min): polichinelos leves, rotação dos ombros e joelhos, marcha no lugar com joelhos altos.',
+      'Agachamento livre: pés na largura dos ombros, desça até 90° como se fosse sentar numa cadeira, suba com força. 3 séries de 12 repetições. Descanso: 45 segundos.',
+      'Avanço (Lunge): dê um passo à frente, desça o joelho traseiro até próximo ao chão, volte. 3 séries de 10 por perna. Descanso: 45 segundos.',
+      'Prancha: apoie no antebraço, mantenha o corpo reto do calcanhar à cabeça, ative o abdômen. 3 séries de 30 segundos. Descanso: 30 segundos.',
+      'Elevação de Quadril (Glute bridge): deitado, pés no chão, eleve o quadril contraindo o glúteo, segure 2 segundos no topo. 3 séries de 15 repetições.',
+      'Desaquecimento (5 min): caminhada leve no lugar e alongamentos gerais de pernas e coluna.',
+    ],
+    tips: 'Descanse 45–60 segundos entre as séries. Se sentir dor além do cansaço muscular normal, pare e descanse. Beba água antes, durante e após.',
+    benefits: ['Força funcional para o dia a dia', 'Melhora o equilíbrio', 'Sem necessidade de equipamento', 'Queima calorias', 'Fortalece glúteos e core'],
+  },
+  hiit: {
+    title: 'HIIT de Baixo Impacto',
+    emoji: '🔥',
+    duration: '25 min',
+    level: 'Avançado',
+    levelColor: '#c0392b',
+    levelBg: '#fdecea',
+    intro: 'HIIT de baixo impacto mantém toda a intensidade do treino intervalado, eliminando os saltos que sobrecarregam joelhos e tornozelos. Ideal para máximos resultados com mínimo risco de lesão.',
+    steps: [
+      'Aquecimento (4 min): marcha no lugar elevando joelhos, círculos nos ombros e quadril, rotação lateral do tronco.',
+      'Agachamento com extensão: desça no agachamento e ao subir erga os braços acima da cabeça. 40 segundos de esforço / 20 segundos de descanso.',
+      'Mountain climber lento: posição de prancha, traga um joelho por vez ao peito de forma controlada. 40 seg / 20 seg.',
+      'Avanço com torção: lunge frontal + gire o tronco para o lado da perna que está à frente. 40 seg / 20 seg.',
+      'Prancha caminhante: na posição de prancha, suba um braço por vez (prancha / cotovelo). 40 seg / 20 seg.',
+      'Repita o circuito completo 3 vezes com 1 minuto de descanso entre cada ciclo.',
+      'Desaquecimento (3 min): respiração profunda, alongamento de quadríceps, panturrilha e isquiotibiais.',
+    ],
+    tips: 'Hidrate-se antes e após. Mesmo sendo baixo impacto, é um treino de alta demanda cardiovascular. Respeite os intervalos — eles fazem parte do treino.',
+    benefits: ['Alta queima calórica', 'Preserva as articulações', 'Melhora o condicionamento', 'Acelera o metabolismo', 'Treino eficiente em pouco tempo'],
+  },
+  danca: {
+    title: 'Dança Livre',
+    emoji: '🎵',
+    duration: '20 min',
+    level: 'Iniciante',
+    levelColor: 'var(--vv-primary)',
+    levelBg: 'var(--vv-primary-lt)',
+    intro: 'Dançar é um dos exercícios mais completos — combina cardio, coordenação, expressão emocional e bem-estar. E o melhor: não existe jeito errado de fazer. O objetivo é se mover com prazer, não perfeição.',
+    steps: [
+      'Escolha uma playlist que te anime de verdade — música que faz o corpo querer se mover sozinho.',
+      'Afaste os móveis para ter um espaço livre de pelo menos 2 metros de cada lado.',
+      'Aquecimento (3 min): comece com movimentos suaves — balançar os braços, girar os ombros, dobrar os joelhos no ritmo.',
+      'Nos primeiros 5 minutos, deixe o corpo seguir a música sem pensar. Nada de coreografia — apenas reação natural.',
+      'Explore diferentes movimentos: giros, passos laterais, movimentos de braço, agachamentos ritmados.',
+      'Se quiser estrutura: repita uma sequência de 4 passos por 2 minutos, depois mude. Impõe foco sem tirar a diversão.',
+      'Desaquecimento (3 min): movimentos mais lentos conforme a música vai terminando. Alongue pescoço, ombros e quadril.',
+    ],
+    tips: 'Dance na frente do espelho ou sem ele — escolha o que te deixa mais à vontade. Rir de si mesmo faz parte e é saudável.',
+    benefits: ['Cardio sem perceber', 'Libera endorfinas e dopamina', 'Melhora coordenação e equilíbrio', 'Reduz ansiedade e estresse', 'Pode ser feita em casa'],
+  },
+  natacao: {
+    title: 'Natação para Iniciantes',
+    emoji: '🏊',
+    duration: '30 min',
+    level: 'Iniciante',
+    levelColor: 'var(--vv-primary)',
+    levelBg: 'var(--vv-primary-lt)',
+    intro: 'A natação é considerada o exercício mais completo que existe — trabalha todos os grupos musculares, melhora o cardio e é completamente livre de impacto. A água suporta 90% do peso corporal, tornando-a ideal para qualquer faixa etária.',
+    steps: [
+      'Aquecimento fora da água (5 min): rotação de ombros, pescoço e tornozelos. Espreguiçamentos gerais.',
+      'Entre na piscina e caminhe de um lado ao outro por 3 minutos para se ambientar à temperatura e à resistência da água.',
+      'Segurando na borda, pratique a respiração: inspire acima da água, vire o rosto e expire embaixo formando bolhas. Repita 10 vezes.',
+      'Nado crawl iniciante: 1 comprimento da piscina em crawl. Descanse 30 segundos. Repita 4 vezes.',
+      'Nado costas: 1 comprimento de costas (mais simples para iniciantes). Descanse 30 segundos. Repita 3 vezes.',
+      'Pernada com prancha: segure uma prancha de apoio e trabalhe apenas as pernas. 2 comprimentos.',
+      'Resfriamento: nado bem lento por 2 minutos. Saía da piscina devagar para não ter tontura.',
+    ],
+    tips: 'Se não sabe nadar, faça hidroginástica — todos os benefícios sem precisar nadar. Nunca entre na água sem aquecimento prévio.',
+    benefits: ['Zero impacto nas articulações', 'Exercita todo o corpo', 'Melhora a capacidade pulmonar', 'Ideal para reabilitação', 'Reduz o estresse intensamente'],
+  },
+  corrida: {
+    title: 'Corrida Leve (Jogging)',
+    emoji: '🏃',
+    duration: '30 min',
+    level: 'Intermediário',
+    levelColor: 'var(--vv-secondary)',
+    levelBg: '#e8f4fd',
+    intro: 'O jogging é a corrida num ritmo em que você ainda consegue falar frases completas sem ficar sem fôlego. É exatamente esse o ritmo ideal para queimar gordura, fortalecer o coração e melhorar o humor — sem exaurir o corpo.',
+    steps: [
+      'Aquecimento (5 min): caminhada rápida, elevação de joelhos no lugar, rotação de tornozelos.',
+      'Comece com 1 minuto de corrida leve + 1 minuto de caminhada. Repita 8 vezes. (Método Run/Walk ideal para iniciantes na corrida)',
+      'Mantenha a postura: costas eretas, olhar à frente (não no chão), ombros relaxados, braços a 90° balançando naturalmente.',
+      'Pés: aterrissem no meio do pé, não no calcanhar. Isso reduz o impacto e o risco de lesões.',
+      'Respiração: inspire pelo nariz por 2 passadas, expire pela boca por 2 passadas. Encontre seu ritmo.',
+      'A partir da semana 3, reduza as pausas de caminhada: 2 min corrida / 1 min caminhada.',
+      'Desaquecimento (5 min): caminhada desacelerada, alongamento de quadríceps, panturrilha e isquiotibiais.',
+    ],
+    tips: 'O teste da conversa: se você consegue falar uma frase de 10 palavras sem se engasgar, está no ritmo certo. Se não consegue, está rápido demais.',
+    benefits: ['Melhora a saúde cardiovascular', 'Queima calorias eficientemente', 'Libera endorfinas', 'Fortalece ossos e músculos', 'Melhora o sono profundo'],
+  },
+  ciclismo: {
+    title: 'Ciclismo Indoor',
+    emoji: '🚴',
+    duration: '40 min',
+    level: 'Intermediário',
+    levelColor: 'var(--vv-secondary)',
+    levelBg: '#e8f4fd',
+    intro: 'O ciclismo indoor permite controlar a intensidade com precisão, independente do clima ou do horário. É um dos melhores cardios para quem tem problemas nos joelhos ou quer progredir de forma segura e mensurável.',
+    steps: [
+      'Ajuste a bike: o selim na altura do quadril, guidão um pouco mais alto que o selim para iniciantes. Joelho levemente flexionado no ponto mais baixo da pedalada.',
+      'Aquecimento (5 min): pedal em resistência leve (nível 2-3), cadência moderada (~70 RPM), sem forçar.',
+      'Fase aeróbica (20 min): resistência média (nível 5-6), cadência ~85 RPM. Ritmo constante onde você consegue falar.',
+      'Intervalos (10 min): alterne 1 min em resistência alta (nível 8) com 1 min em resistência baixa (nível 3). Repita 5 vezes.',
+      'Subida simulada (5 min): aumente gradualmente a resistência enquanto diminui a cadência, como se estivesse subindo uma ladeira.',
+      'Desaquecimento (5 min): volte para resistência leve e deixe o corpo estabilizar a frequência cardíaca.',
+      'Alongue bem: quadríceps, panturrilha, lombar e quadril após a aula.',
+    ],
+    tips: 'Beba água a cada 10 minutos. Não se sente na ponta do selim — use toda a superfície. Uma bermuda de ciclismo faz muita diferença no conforto.',
+    benefits: ['Cardio sem impacto nos joelhos', 'Fortalece pernas e glúteos', 'Queima calorias eficientemente', 'Melhora a resistência aeróbica', 'Pode ser feito em casa'],
+  },
+  musculacao: {
+    title: 'Musculação para Iniciantes',
+    emoji: '🏋️',
+    duration: '50 min',
+    level: 'Avançado',
+    levelColor: '#c0392b',
+    levelBg: '#fdecea',
+    intro: 'Musculação não é só para quem quer "ficar grande". É o treinamento mais eficaz para aumentar a densidade óssea, elevar o metabolismo, melhorar a postura e proteger as articulações. Começar com técnica é tudo.',
+    steps: [
+      'Aquecimento (8 min): 5 min de esteira leve ou bicicleta + mobilidade articular (ombros, quadril, tornozelos).',
+      'Supino reto com halteres (peito): 3 séries de 12 repetições. Deite no banco, halteres na altura do peito, suba estendendo os braços e desça com controle.',
+      'Remada curvada (costas): 3x12. Incline o tronco à 45°, puxe os halteres para os quadris contraindo as escápulas.',
+      'Agachamento livre (pernas): 3x15. Pés na largura dos ombros, desça mantendo o tronco ereto, joelhos acompanham os pés.',
+      'Desenvolvimento (ombros): 3x12. Sentado, empurre os halteres acima da cabeça alternando os braços.',
+      'Rosca direta (bíceps) + Tríceps testa: 3x12 cada. Execute com amplitude completa e sem balançar o corpo.',
+      'Prancha abdominal: 3 séries de 30-45 segundos. Mantenha o core contraído e a coluna neutra.',
+      'Desaquecimento: 5 min de cardio leve + alongamento de todos os grupos treinados.',
+    ],
+    tips: 'Comece com cargas leves — a técnica perfeita vale infinitamente mais que a carga pesada. Aumente o peso somente quando conseguir fazer todas as séries sem perder a forma.',
+    benefits: ['Aumenta a densidade óssea', 'Acelera o metabolismo', 'Melhora a postura', 'Protege as articulações', 'Resultados visíveis em 6-8 semanas'],
+  },
+};
+
+/* ========================================
+   DADOS DAS RECEITAS
+======================================== */
+const recipeData = {
+  vitamina: {
+    title: 'Vitamina Verde Energizante',
+    category: 'Café da Manhã',
+    prepTime: '5 minutos',
+    servings: '1 copo (350 ml)',
+    calories: '~180 kcal',
+    ingredients: [
+      '1 punhado de espinafre fresco (ou 2 col. sopa congelado)',
+      '1 banana pequena madura (pode ser congelada)',
+      '½ maçã verde com casca',
+      '1 rodela de gengibre fresco (1 cm)',
+      '200 ml de água de coco ou água filtrada',
+      '1 col. chá de suco de limão',
+      'Gelo a gosto',
+    ],
+    instructions: [
+      'Lave bem o espinafre e a maçã em água corrente.',
+      'Descasque a banana e corte em pedaços (se congelada, já está pronta).',
+      'Corte a maçã em cubos mantendo a casca (ela tem mais fibras e antioxidantes).',
+      'Coloque tudo no liquidificador: espinafre, banana, maçã, gengibre, água de coco e gelo.',
+      'Bata por 1–2 minutos até ficar completamente homogêneo e sem pedaços.',
+      'Prove e ajuste: mais doce → adicione uma tâmara; mais ácido → mais limão.',
+      'Sirva imediatamente para preservar os nutrientes e a cor vibrante.',
+    ],
+    nutritional: 'Ferro • Vitamina C • Potássio • Vitamina B6 • Fibras • Zinco',
+    tip: 'Adicione 1 col. sopa de linhaça triturada para ômega-3 extra. Congele porções em formas de gelo para dias corridos — basta bater com água.',
+  },
+  tapioca: {
+    title: 'Tapioca com Coco e Mel',
+    category: 'Café da Manhã',
+    prepTime: '10 minutos',
+    servings: '1 tapioca',
+    calories: '~220 kcal',
+    ingredients: [
+      '4 col. sopa de goma de tapioca hidratada (ou flocos)',
+      '2 col. sopa de coco ralado sem açúcar',
+      '1 col. chá de mel ou xarope de agave',
+      '1 pitada de canela em pó',
+      '1 col. chá de manteiga de amendoim (opcional)',
+    ],
+    instructions: [
+      'Espalhe a goma de tapioca numa frigideira antiaderente fria, formando um disco fino e uniforme.',
+      'Leve ao fogo médio sem mexer. Quando a borda começar a firmar (1–2 min), a tapioca está pronta para virar.',
+      'Vire com cuidado com uma espátula. Deixe mais 30 segundos.',
+      'Espalhe o coco ralado sobre metade da tapioca.',
+      'Regue com o mel e polvilhe a canela.',
+      'Se quiser, adicione uma colherinha de manteiga de amendoim para proteína extra.',
+      'Dobre ao meio e sirva imediatamente.',
+    ],
+    nutritional: 'Carboidratos de fácil digestão • Sem glúten • Fonte de energia rápida • Gorduras boas (coco)',
+    tip: 'Varie o recheio: banana com canela, cottage com frutas vermelhas ou ovo mexido com queijo. A tapioca é uma tela em branco deliciosa.',
+  },
+  buddha: {
+    title: 'Buddha Bowl Colorido',
+    category: 'Almoço',
+    prepTime: '30 minutos',
+    servings: '2 porções',
+    calories: '~480 kcal por porção',
+    ingredients: [
+      '1 xícara de quinoa (ou arroz integral)',
+      '1 xícara de grão-de-bico cozido',
+      '1 cenoura média em rodelas',
+      '1 abobrinha em cubos',
+      '1 beterraba em cubos (pode ser cozida)',
+      '2 col. sopa de azeite',
+      'Sal, pimenta, cúrcuma e páprica a gosto',
+      '1 punhado de rúcula ou espinafre',
+      '½ abacate fatiado',
+      'Para o molho: 2 col. sopa tahine, suco de 1 limão, 1 dente de alho, sal e água para ajustar',
+    ],
+    instructions: [
+      'Pré-aqueça o forno a 200°C. Misture cenoura, abobrinha e beterraba com azeite, sal, pimenta e páprica.',
+      'Espalhe os legumes numa assadeira e asse por 20–25 min até ficarem macios e levemente dourados.',
+      'Enquanto isso, cozinhe a quinoa: 1 xícara de quinoa para 2 de água, tampe e cozinhe em fogo baixo por 15 min.',
+      'Prepare o molho tahine: misture todos os ingredientes e adicione água até a consistência cremosa desejada.',
+      'Monte o bowl: coloque a quinoa como base, arranje os legumes assados, o grão-de-bico, a rúcula e o abacate.',
+      'Regue com o molho tahine generosamente.',
+      'Sirva imediatamente. Os componentes podem ser preparados com antecedência e montados na hora.',
+    ],
+    nutritional: 'Proteína completa (quinoa) • Fibras • Beta-caroteno • Gorduras boas (abacate) • Ferro • Cálcio',
+    tip: 'Faça todos os componentes em dobro no domingo. Durante a semana, monte os bowls em minutos — é meal prep saudável e delicioso.',
+  },
+  sopa: {
+    title: 'Sopa de Abóbora com Cúrcuma',
+    category: 'Almoço',
+    prepTime: '35 minutos',
+    servings: '4 porções',
+    calories: '~160 kcal por porção',
+    ingredients: [
+      '600 g de abóbora cabotiá em cubos',
+      '1 cebola média picada',
+      '3 dentes de alho amassados',
+      '1 col. chá de cúrcuma (açafrão da terra)',
+      '½ col. chá de gengibre em pó (ou 1 rodela fresco)',
+      '1 col. sopa de azeite',
+      '600 ml de caldo de legumes (ou água)',
+      '200 ml de leite de coco',
+      'Sal, pimenta e noz-moscada a gosto',
+      'Sementes de abóbora torradas para finalizar',
+    ],
+    instructions: [
+      'Refogue a cebola e o alho no azeite em fogo médio até ficarem translúcidos (3 min).',
+      'Adicione a cúrcuma e o gengibre. Mexa por 1 minuto — as especiarias ativam suas propriedades com o calor.',
+      'Acrescente a abóbora em cubos e o caldo de legumes. Tampe e cozinhe em fogo médio por 20 min.',
+      'Quando a abóbora estiver completamente macia, use um mixer para bater tudo até ficar cremoso.',
+      'Adicione o leite de coco, sal, pimenta e noz-moscada. Ajuste a consistência com mais caldo se necessário.',
+      'Cozinhe por mais 5 minutos em fogo baixo.',
+      'Sirva com sementes de abóbora torradas por cima e um fio de azeite.',
+    ],
+    nutritional: 'Beta-caroteno • Curcumina (anti-inflamatório) • Vitamina A • Vitamina C • Potássio • Baixo em calorias',
+    tip: 'A cúrcuma tem curcumina, um dos anti-inflamatórios naturais mais potentes. Para aumentar a absorção, adicione uma pitada de pimenta-do-reino — ela aumenta a biodisponibilidade em até 2000%.',
+  },
+  castanhas: {
+    title: 'Mix de Castanhas e Frutas Secas',
+    category: 'Lanche',
+    prepTime: '5 minutos (montagem)',
+    servings: '4 porções de 30 g',
+    calories: '~180 kcal por porção',
+    ingredients: [
+      '¼ xícara de nozes (partidas ao meio)',
+      '¼ xícara de amêndoas sem sal',
+      '¼ xícara de castanha-do-pará (2–3 unidades/dia é suficiente)',
+      '¼ xícara de castanha de caju sem sal',
+      '2 col. sopa de tâmaras picadas (ou damasco seco)',
+      '2 col. sopa de cranberry seco (sem açúcar adicionado)',
+      '1 col. sopa de nibs de cacau (opcional)',
+    ],
+    instructions: [
+      'Misture todos os ingredientes num bowl ou pote com tampa.',
+      'Se quiser intensificar o sabor, toste levemente as castanhas numa frigideira seca por 3 min.',
+      'Divida em 4 porções de aproximadamente 30 g (uma colher de servir cheia).',
+      'Guarde as porções em saquinhos ou potinhos individuais — facilita o consumo durante a semana.',
+      'Consuma como lanche da manhã ou da tarde para sustentar a energia entre refeições.',
+    ],
+    nutritional: 'Ômega-3 (nozes) • Selênio (castanha-do-pará) • Vitamina E • Fibras • Gorduras insaturadas • Antioxidantes',
+    tip: '2 castanhas-do-pará por dia já suprem 100% da necessidade diária de selênio — mineral essencial para tireoide e imunidade. Não exagere: mais não é melhor neste caso.',
+  },
+  omelete: {
+    title: 'Omelete de Legumes',
+    category: 'Jantar',
+    prepTime: '10 minutos',
+    servings: '1 porção',
+    calories: '~280 kcal',
+    ingredients: [
+      '3 ovos caipiras',
+      '¼ de abobrinha em cubinhos',
+      '¼ de pimentão vermelho em cubinhos',
+      '1 col. sopa de cebola roxa picada',
+      '1 punhado de espinafre ou rúcula',
+      '2 col. sopa de queijo cottage ou ricota (opcional)',
+      '1 col. chá de azeite',
+      'Sal, pimenta e ervas frescas a gosto (manjericão, salsinha)',
+    ],
+    instructions: [
+      'Bata os ovos numa tigela com sal e pimenta. Não exagere no batimento — basta misturar bem.',
+      'Aqueça o azeite em frigideira antiaderente em fogo médio. Refogue a cebola por 1 minuto.',
+      'Adicione abobrinha e pimentão. Refogue por 3 minutos até amolecer levemente.',
+      'Espalhe o espinafre sobre os legumes e deixe murchar por 30 segundos.',
+      'Despeje os ovos batidos sobre os legumes. Não mexa — deixe firmar nas bordas (1–2 min).',
+      'Se usar queijo, espalhe sobre metade da omelete antes de dobrar.',
+      'Quando o centro estiver quase firme, dobre ao meio com uma espátula. Desligue o fogo — o calor residual termina o cozimento.',
+    ],
+    nutritional: 'Proteína completa • Vitamina D • Colina (saúde cerebral) • Ferro • Vitamina B12 • Baixo em carboidratos',
+    tip: 'À noite, prefira proteína leve (ovos, peixes) em vez de carnes vermelhas — são mais fáceis de digerir e não comprometem o sono. A omelete é uma das opções mais nutritivas e práticas que existem.',
+  },
+  acai: {
+    title: 'Açaí Bowl com Frutas',
+    category: 'Café da Manhã',
+    prepTime: '10 minutos',
+    servings: '1 bowl',
+    calories: '~380 kcal',
+    ingredients: [
+      '200 g de açaí puro congelado (sem xarope)',
+      '1 banana congelada (para cremosidade)',
+      '50 ml de leite vegetal (amêndoas, aveia ou coco)',
+      'Para o topping: 2 col. sopa de granola',
+      '½ banana fresca fatiada',
+      '1 punhado de morangos fatiados',
+      '1 col. sopa de mel ou xarope de agave',
+      '1 col. sopa de coco ralado (opcional)',
+      '1 col. chá de nibs de cacau (opcional)',
+    ],
+    instructions: [
+      'Retire o açaí e a banana congelada do freezer 2 minutos antes de bater (facilita o processamento).',
+      'Coloque o açaí, a banana congelada e o leite vegetal no liquidificador ou processador.',
+      'Bata na potência máxima por 1–2 minutos até obter uma consistência cremosa e homogênea. Adicione leite aos poucos se necessário.',
+      'A consistência ideal é bem espessa — quase como sorvete. Não adicione gelo.',
+      'Transfira para um bowl fundo e frio (deixar o bowl no freezer por 5 min ajuda a manter a temperatura).',
+      'Monte o topping com criatividade: granola, frutas frescas, mel, coco e nibs de cacau.',
+      'Sirva imediatamente, antes de derreter.',
+    ],
+    nutritional: 'Antocianinas (antioxidantes) • Vitamina E • Ômega-9 • Fibras • Potássio • Ferro',
+    tip: 'O açaí puro (sem xarope de guaraná) tem índice glicêmico baixo. Evite as versões industrializadas cheias de açúcar. Compre polpa pura e controle o que você adiciona.',
+  },
+  iogurte: {
+    title: 'Iogurte Grego com Granola e Frutas',
+    category: 'Café da Manhã',
+    prepTime: '3 minutos',
+    servings: '1 porção',
+    calories: '~320 kcal',
+    ingredients: [
+      '200 g de iogurte grego natural integral (sem adição de açúcar)',
+      '3 col. sopa de granola artesanal ou low sugar',
+      '½ xícara de frutas vermelhas (morango, mirtilo, amora)',
+      '1 col. chá de mel ou xarope de bordo',
+      '1 col. chá de sementes de chia (opcional)',
+      '3–4 fatias de banana',
+      'Canela em pó a gosto',
+    ],
+    instructions: [
+      'Coloque o iogurte grego como base num bowl ou copo largo.',
+      'Polvilhe as sementes de chia e deixe por 2 minutos — elas absorvem o iogurte e ficam mais cremosas.',
+      'Distribua a granola por cima do iogurte (coloque na hora de comer para manter a crocância).',
+      'Arranje as frutas frescas sobre a granola.',
+      'Adicione as fatias de banana e drize o mel por cima de tudo.',
+      'Finalize com uma pitada de canela.',
+      'Sirva imediatamente para aproveitar o contraste de texturas.',
+    ],
+    nutritional: 'Proteína completa • Probióticos (flora intestinal) • Cálcio • Vitamina B12 • Antioxidantes (frutas)',
+    tip: 'O iogurte grego tem o dobro de proteína do iogurte comum — mantém a saciedade por até 4 horas. Prefira versões integrais: a gordura do leite integral ajuda na absorção de vitaminas lipossolúveis.',
+  },
+  frango: {
+    title: 'Frango Grelhado com Brócolis',
+    category: 'Almoço',
+    prepTime: '25 minutos',
+    servings: '2 porções',
+    calories: '~360 kcal por porção',
+    ingredients: [
+      '400 g de filé de frango (peito ou sassami)',
+      '300 g de brócolis em floretes',
+      '3 dentes de alho fatiados',
+      '2 col. sopa de azeite extra virgem',
+      'Suco de 1 limão siciliano',
+      '1 col. chá de páprica defumada',
+      '1 col. chá de orégano ou ervas de Provence',
+      'Sal, pimenta e pimenta-do-reino a gosto',
+      'Raspas de limão para finalizar',
+    ],
+    instructions: [
+      'Marine o frango: misture o suco de limão, metade do azeite, páprica, orégano, sal e pimenta. Cubra o frango e deixe por 10–15 min (ou overnight na geladeira).',
+      'Cozinhe o brócolis no vapor por 4–5 minutos — deve ficar verde vivo e levemente crocante (al dente). Reserve.',
+      'Aqueça uma frigideira antiaderente ou grill em fogo alto. Coloque o frango marinado.',
+      'Grelhe por 5–6 minutos de cada lado sem mexer — isso garante a marca de grelha e mantém a suculência.',
+      'Retire o frango e deixe descansar 3 minutos antes de cortar (os sucos redistribuem).',
+      'Na mesma frigideira, refogue o alho no azeite restante por 1 minuto. Adicione o brócolis e salteie por 2 minutos.',
+      'Sirva o frango fatiado com o brócolis ao lado. Finalize com raspas de limão e um fio de azeite.',
+    ],
+    nutritional: 'Proteína magra de alto valor biológico • Sulforafano (anticancerígeno do brócolis) • Vitamina C • Vitamina K • Ferro',
+    tip: 'Não cozinhe o brócolis demais — perde cor, textura e metade dos nutrientes. O ponto ideal é quando a faca entra com leve resistência. Cru por dentro, macio por fora.',
+  },
+  salada: {
+    title: 'Salada de Quinoa Proteica',
+    category: 'Almoço',
+    prepTime: '25 minutos',
+    servings: '2 porções',
+    calories: '~420 kcal por porção',
+    ingredients: [
+      '1 xícara de quinoa (rende ~2 xícaras cozida)',
+      '1 lata de grão-de-bico cozido (400 g escorrido)',
+      '1 pepino japonês em cubos',
+      '200 g de tomate cereja cortados ao meio',
+      '1 pimentão amarelo em cubos',
+      '½ cebola roxa fatiada finamente',
+      '1 punhado de folhas de hortelã fresca',
+      'Para o molho: 3 col. sopa de azeite, suco de 1 limão e meio, 1 dente de alho ralado, sal e pimenta',
+    ],
+    instructions: [
+      'Cozinhe a quinoa: lave bem em água corrente, coloque em panela com 2 xícaras de água e uma pitada de sal. Cozinhe tampado em fogo médio por 15 minutos. Deixe descansar 5 min e solte com garfo.',
+      'Enquanto a quinoa cozinha, escorra e lave o grão-de-bico. Seque bem com papel-toalha.',
+      'Se quiser, doure o grão-de-bico: tempere com azeite, páprica e sal, asse a 200°C por 20 min para ficar crocante.',
+      'Prepare o molho: misture azeite, suco de limão, alho ralado, sal e pimenta. Prove e ajuste a acidez.',
+      'Deixe a quinoa esfriar um pouco (não precisa estar gelada, só morna).',
+      'Misture todos os ingredientes numa tigela grande: quinoa, grão-de-bico, pepino, tomate, pimentão e cebola roxa.',
+      'Adicione o molho, misture bem e finalize com as folhas de hortelã. Sirva na temperatura ambiente ou gelado.',
+    ],
+    nutritional: 'Proteína completa (quinoa) • Fibras • Vitamina C • Ferro • Folato • Antioxidantes (licopeno do tomate)',
+    tip: 'Essa salada dura 3 dias na geladeira (sem o molho). Guarde o molho separado e adicione apenas na hora de servir para não murchar os ingredientes.',
+  },
+  smoothie: {
+    title: 'Smoothie de Morango e Banana',
+    category: 'Lanche',
+    prepTime: '5 minutos',
+    servings: '1 copo (400 ml)',
+    calories: '~210 kcal',
+    ingredients: [
+      '1 banana congelada (fundamental para a cremosidade)',
+      '1 xícara de morangos frescos ou congelados',
+      '150 ml de leite vegetal (aveia, amêndoas ou coco)',
+      '1 col. sopa de iogurte grego (para proteína extra)',
+      '1 col. chá de mel (opcional)',
+      '1 col. sopa de aveia em flocos',
+      '4-5 cubos de gelo (se usar frutas frescas)',
+    ],
+    instructions: [
+      'Congele a banana no dia anterior: descasque, corte em rodelas e congele em saquinho. Isso é o segredo da cremosidade.',
+      'Lave e retire o cabo dos morangos. Se forem frescos, reserve 2–3 para decorar.',
+      'Coloque no liquidificador: banana congelada, morangos, leite vegetal, iogurte e aveia.',
+      'Bata em velocidade alta por 1–2 minutos até ficar completamente liso e cremoso.',
+      'Prove e adicione mel se quiser mais doçura.',
+      'Se a consistência estiver muito espessa, adicione um pouco mais de leite vegetal e bata por mais 30 segundos.',
+      'Sirva imediatamente num copo alto, decorado com morangos fatiados e uma folha de hortelã.',
+    ],
+    nutritional: 'Vitamina C • Potássio • Vitamina B6 • Fibras • Antocianinas (morango) • Beta-glucana (aveia)',
+    tip: 'Para aumentar a proteína sem alterar o sabor, adicione 1 col. sopa de pasta de amendoim ou uma dose de proteína vegetal em pó. O smoothie fica ainda mais saciante.',
+  },
+  abacate: {
+    title: 'Abacate com Mel e Granola',
+    category: 'Lanche',
+    prepTime: '5 minutos',
+    servings: '1 porção',
+    calories: '~280 kcal',
+    ingredients: [
+      '½ abacate maduro (Hass ou Fuerte)',
+      '1 col. sopa de mel puro ou xarope de agave',
+      '2 col. sopa de granola low sugar',
+      '1 pitada de flor de sal',
+      '1 pitada de canela em pó',
+      'Algumas gotas de limão (evita oxidação e realça o sabor)',
+      '1 col. chá de nibs de cacau (opcional)',
+    ],
+    instructions: [
+      'Escolha um abacate maduro: deve ceder levemente à pressão dos dedos, sem estar mole demais.',
+      'Corte o abacate ao meio no sentido comprido e retire o caroço com uma colher.',
+      'Esprema algumas gotas de limão sobre a polpa para preservar a cor e realçar o sabor.',
+      'Coloque a granola no centro (onde estava o caroço) e por cima da polpa.',
+      'Regue generosamente com mel.',
+      'Adicione a pitada de flor de sal — ela potencializa a doçura do mel.',
+      'Finalize com canela e nibs de cacau. Coma com uma colher diretamente da casca.',
+    ],
+    nutritional: 'Ácido oleico (coração) • Vitamina E • Potássio • Fibras • Folato • Gordura monoinsaturada',
+    tip: 'O abacate tem gordura que protege o coração — é a mesma gordura do azeite. Não tenha medo das calorias: elas vêm de nutrientes, não de calorias vazias. Meio abacate por dia é perfeitamente saudável.',
+  },
+  salmao: {
+    title: 'Salmão Assado com Batata-Doce',
+    category: 'Jantar',
+    prepTime: '35 minutos',
+    servings: '2 porções',
+    calories: '~450 kcal por porção',
+    ingredients: [
+      '2 filés de salmão (180 g cada)',
+      '2 batatas-doces médias',
+      '2 col. sopa de azeite',
+      'Suco e raspas de 1 limão siciliano',
+      '2 dentes de alho amassados',
+      '1 col. chá de alecrim fresco (ou seco)',
+      '1 col. chá de tomilho',
+      'Sal, pimenta e páprica defumada a gosto',
+      '1 punhado de rúcula para servir',
+    ],
+    instructions: [
+      'Pré-aqueça o forno a 200°C. Lave as batatas-doces, corte em rodelas de 1 cm (com casca).',
+      'Tempere as rodelas com 1 col. sopa de azeite, sal, pimenta e alecrim. Espalhe numa assadeira e asse por 20 minutos.',
+      'Enquanto isso, prepare o salmão: misture o azeite restante, alho, suco e raspas de limão, tomilho, sal, pimenta e páprica.',
+      'Cubra os filés de salmão com a marinada. Deixe descansar enquanto a batata assa.',
+      'Após 20 minutos, vire as batatas. Coloque os filés de salmão na mesma assadeira.',
+      'Asse por mais 12–15 minutos. O salmão está pronto quando lascar facilmente com um garfo e o centro ainda estiver levemente rosado.',
+      'Sirva o salmão sobre a rúcula, com as batatas-doces ao lado e um fio de azeite e raspas de limão.',
+    ],
+    nutritional: 'Ômega-3 EPA e DHA • Proteína de alto valor biológico • Vitamina D • Vitamina B12 • Betacaroteno (batata-doce) • Selênio',
+    tip: 'Não passe do ponto — salmão bem passado perde boa parte dos ômega-3 e fica seco. O ponto ideal é quando o interior ainda tem uma tonalidade rosada suave. Salmão cru por dentro não é problema se for de qualidade.',
+  },
+  caldoverde: {
+    title: 'Caldo Verde Reconfortante',
+    category: 'Jantar',
+    prepTime: '30 minutos',
+    servings: '4 porções',
+    calories: '~180 kcal por porção',
+    ingredients: [
+      '4 batatas médias descascadas e picadas',
+      '1 maço de couve manteiga (ou couve portuguesa)',
+      '1 cebola picada',
+      '3 dentes de alho amassados',
+      '2 col. sopa de azeite extra virgem',
+      '1,2 litro de água ou caldo de legumes',
+      'Sal, pimenta e noz-moscada a gosto',
+      '1 col. sopa de azeite para finalizar',
+    ],
+    instructions: [
+      'Refogue a cebola e o alho no azeite em panela média em fogo médio, por 3 minutos até amolecer.',
+      'Adicione as batatas picadas e o caldo de legumes. Cozinhe com a panela tampada por 15–18 minutos, até as batatas ficarem bem macias.',
+      'Com um mixer (ou no liquidificador em lotes), bata tudo até ficar uma sopa cremosa e homogênea.',
+      'Volte ao fogo e ajuste a consistência com mais água se necessário. Tempere com sal, pimenta e noz-moscada.',
+      'Enquanto a sopa aquece, lave e seque muito bem a couve. Empilhe as folhas, enrole e corte em tiras finíssimas (chiffonade).',
+      'Adicione a couve à sopa fervente. Cozinhe por apenas 2–3 minutos — ela deve ficar verde vivo e levemente crocante.',
+      'Sirva com um generoso fio de azeite por cima. Pão integral ao lado é a combinação perfeita.',
+    ],
+    nutritional: 'Vitamina C • Vitamina K (couve) • Potássio • Ferro • Cálcio • Fibras • Baixo em calorias e gorduras',
+    tip: 'O segredo do caldo verde perfeito é a couve bem fina e o cozimento curto. Couve cozida demais perde a cor, a textura e metade dos nutrientes. Corte fininho e adicione só no final.',
+  },
+};
+
+/* ========================================
+   FUNÇÕES DOS MODAIS
+======================================== */
+function openExercise(id) {
+  const data = exerciseData[id];
+  if (!data) return;
+
+  const stepsHtml = data.steps.map((s, i) =>
+    `<li><span class="step-num">${i + 1}</span><span>${s}</span></li>`
+  ).join('');
+
+  const benefitsHtml = data.benefits.map(b =>
+    `<span class="benefit-pill">${b}</span>`
+  ).join('');
+
+  document.getElementById('exercise-modal-content').innerHTML = `
+    <div class="d-flex align-items-center gap-3 mb-3">
+      <div style="font-size:2.4rem">${data.emoji}</div>
+      <div>
+        <h4 class="mb-1" style="font-family:var(--font-head);font-weight:800">${data.title}</h4>
+        <div class="d-flex gap-2 align-items-center flex-wrap">
+          <span class="category-badge" style="background:${data.levelBg};color:${data.levelColor}">${data.level}</span>
+          <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>${data.duration}</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:.92rem;color:var(--vv-muted);line-height:1.7;margin-bottom:1.2rem">${data.intro}</p>
+    <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:.6rem"><i class="bi bi-list-ol text-primary-vv me-2"></i>Passo a passo</h6>
+    <ul class="step-list mb-3">${stepsHtml}</ul>
+    <div class="tip-highlight"><strong>💡 Dica:</strong> ${data.tips}</div>
+    <h6 style="font-family:var(--font-head);font-weight:700;margin-top:1.2rem;margin-bottom:.4rem"><i class="bi bi-stars text-primary-vv me-2"></i>Benefícios</h6>
+    <div class="benefit-pills">${benefitsHtml}</div>
+  `;
+
+  document.getElementById('exercise-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeExercise(e) {
+  if (e.target === document.getElementById('exercise-overlay')) closeExerciseBtn();
+}
+function closeExerciseBtn() {
+  document.getElementById('exercise-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function openRecipe(id) {
+  const data = recipeData[id];
+  if (!data) return;
+
+  const ingredientsHtml = data.ingredients.map(i => `<li>${i}</li>`).join('');
+  const instructionsHtml = data.instructions.map((s, i) =>
+    `<li><span class="step-num">${i + 1}</span><span>${s}</span></li>`
+  ).join('');
+
+  document.getElementById('recipe-modal-content').innerHTML = `
+    <h4 class="mb-1 pe-4" style="font-family:var(--font-head);font-weight:800">${data.title}</h4>
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <span class="category-badge" style="background:#fff8ec;color:#c87f0a">${data.category}</span>
+      <span class="text-muted" style="font-size:.82rem"><i class="bi bi-clock me-1"></i>${data.prepTime}</span>
+      <span class="text-muted" style="font-size:.82rem"><i class="bi bi-person me-1"></i>${data.servings}</span>
+      <span class="text-muted" style="font-size:.82rem"><i class="bi bi-fire me-1"></i>${data.calories}</span>
+    </div>
+
+    <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:.6rem"><i class="bi bi-basket2-fill text-primary-vv me-2"></i>Ingredientes</h6>
+    <ul class="ingredient-list mb-3" style="font-size:.88rem;padding-left:1.2rem">${ingredientsHtml}</ul>
+
+    <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:.6rem"><i class="bi bi-list-ol text-primary-vv me-2"></i>Modo de preparo</h6>
+    <ul class="step-list mb-3">${instructionsHtml}</ul>
+
+    <div style="background:var(--vv-primary-lt);border-radius:.8rem;padding:.9rem 1rem;margin-bottom:.8rem">
+      <strong style="color:var(--vv-primary);font-size:.85rem"><i class="bi bi-heart-pulse-fill me-1"></i>Valor nutricional:</strong>
+      <p class="mb-0" style="font-size:.83rem;color:var(--vv-muted);margin-top:.2rem">${data.nutritional}</p>
+    </div>
+
+    <div class="tip-highlight"><strong>💡 Dica:</strong> ${data.tip}</div>
+  `;
+
+  document.getElementById('recipe-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRecipe(e) {
+  if (e.target === document.getElementById('recipe-overlay')) closeRecipeBtn();
+}
+function closeRecipeBtn() {
+  document.getElementById('recipe-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Fechar modais com ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeExerciseBtn();
+    closeRecipeBtn();
+    if (document.getElementById('vita-window').classList.contains('vita-open')) {
+      toggleVita();
+    }
+  }
+});
+</script>
+
+<!-- ============================================================
+     VITA — BOT DE BEM-ESTAR
+============================================================ -->
+<style>
+  /* Botão flutuante */
+  #vita-fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--vv-primary);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(61,122,94,.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: transform .2s, box-shadow .2s;
+  }
+  #vita-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(61,122,94,.55); }
+  #vita-fab svg { width: 28px; height: 28px; fill: #fff; }
+  #vita-fab .vita-badge {
+    position: absolute;
+    top: 0; right: 0;
+    width: 16px; height: 16px;
+    background: #e8a838;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    display: none;
+  }
+  #vita-fab.vita-has-msg .vita-badge { display: block; }
+
+  /* Janela do chat */
+  #vita-window {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    width: 360px;
+    max-height: 520px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+    display: flex;
+    flex-direction: column;
+    z-index: 9998;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(.96);
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+  }
+  #vita-window.vita-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+  }
+
+  /* Cabeçalho */
+  .vita-header {
+    background: var(--vv-primary);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .vita-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .vita-header-info { flex: 1; }
+  .vita-header-info strong { color: #fff; font-size: .95rem; display: block; }
+  .vita-header-info span { color: rgba(255,255,255,.78); font-size: .75rem; }
+  .vita-close-btn {
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,.8); font-size: 1.2rem; padding: 0;
+    line-height: 1;
+  }
+  .vita-close-btn:hover { color: #fff; }
+
+  /* Mensagens */
+  #vita-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f8faf9;
+  }
+  #vita-messages::-webkit-scrollbar { width: 4px; }
+  #vita-messages::-webkit-scrollbar-thumb { background: #c8ddd3; border-radius: 4px; }
+
+  .vita-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: .855rem;
+    line-height: 1.5;
+    word-break: break-word;
+    animation: vitaFadeIn .2s ease;
+  }
+  @keyframes vitaFadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+  .vita-msg.bot {
+    background: #fff;
+    border: 1px solid #e0ede7;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    color: #2d3748;
+  }
+  .vita-msg.user {
+    background: var(--vv-primary);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+  }
+  .vita-msg.typing {
+    background: #fff;
+    border: 1px solid #e0ede7;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    color: #6c757d;
+    font-style: italic;
+    font-size: .8rem;
+  }
+
+  /* Área de sugestões rápidas */
+  .vita-suggestions {
+    display: flex;
+    gap: 6px;
+    padding: 8px 14px 4px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    background: #f8faf9;
+    border-top: 1px solid #eaf2ed;
+  }
+  .vita-suggestions::-webkit-scrollbar { display: none; }
+  .vita-chip {
+    background: var(--vv-primary-lt);
+    color: var(--vv-primary);
+    border: 1px solid #c0ddd0;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: .75rem;
+    white-space: nowrap;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background .15s;
+  }
+  .vita-chip:hover { background: #bfd9cc; }
+
+  /* Input */
+  .vita-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 14px;
+    border-top: 1px solid #e6eeea;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  #vita-input {
+    flex: 1;
+    border: 1.5px solid #d1e5da;
+    border-radius: 24px;
+    padding: 8px 14px;
+    font-size: .85rem;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    line-height: 1.4;
+    max-height: 80px;
+    overflow-y: auto;
+    transition: border-color .2s;
+  }
+  #vita-input:focus { border-color: var(--vv-primary); }
+  #vita-send {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--vv-primary);
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background .2s;
+    align-self: flex-end;
+  }
+  #vita-send:hover { background: #2f6049; }
+  #vita-send:disabled { background: #a0c4b4; cursor: not-allowed; }
+
+  @media (max-width: 480px) {
+    #vita-window { width: calc(100vw - 24px); right: 12px; bottom: 90px; }
+    #vita-fab { bottom: 18px; right: 16px; }
+  }
+</style>
+
+<!-- Botão flutuante Vita -->
+<button id="vita-fab" onclick="toggleVita()" title="Conversar com Vita">
+  <span class="vita-badge"></span>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.03 2 11c0 2.88 1.4 5.45 3.6 7.2L5 21l3.2-1.6C9.4 19.76 10.67 20 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2zm1 13H9v-2h4v2zm2-4H9V9h6v2z"/>
+  </svg>
+</button>
+
+<!-- Janela do chat -->
+<div id="vita-window">
+  <div class="vita-header">
+    <div class="vita-avatar">🌿</div>
+    <div class="vita-header-info">
+      <strong>Vita</strong>
+      <span>Sua guia de bem-estar</span>
+    </div>
+    <button class="vita-close-btn" onclick="toggleVita()" title="Fechar">✕</button>
+  </div>
+
+  <div id="vita-messages"></div>
+
+  <div class="vita-suggestions" id="vita-suggestions">
+    <button class="vita-chip" onclick="vitaSuggest('Como posso começar a me exercitar?')">🏃 Começar exercícios</button>
+    <button class="vita-chip" onclick="vitaSuggest('Me indique uma receita saudável')">🥗 Receitas saudáveis</button>
+    <button class="vita-chip" onclick="vitaSuggest('Estou me sentindo ansioso(a) hoje')">💭 Estou ansioso(a)</button>
+    <button class="vita-chip" onclick="vitaSuggest('Como funciona o site?')">🗺️ Tour pelo site</button>
+  </div>
+
+  <div class="vita-input-row">
+    <textarea id="vita-input" placeholder="Escreva algo…" rows="1"
+      onkeydown="vitaKeydown(event)" oninput="autoResize(this)"></textarea>
+    <button id="vita-send" onclick="vitaSend()" title="Enviar">
+      <i class="bi bi-send-fill"></i>
+    </button>
+  </div>
+</div>
+
+<script>
+// ── VITA BOT ──────────────────────────────────────────────────
+const vitaHistory = [];
+let vitaOpen = false;
+let vitaTyping = false;
+let vitaGreeted = false;
+
+function toggleVita() {
+  vitaOpen = !vitaOpen;
+  const win = document.getElementById('vita-window');
+  win.classList.toggle('vita-open', vitaOpen);
+  document.getElementById('vita-fab').classList.remove('vita-has-msg');
+
+  if (vitaOpen && !vitaGreeted) {
+    vitaGreeted = true;
+    setTimeout(() => vitaAppendMsg('bot',
+      'Olá! Sou a Vita 🌿, sua companheira de bem-estar aqui no Viva Hoje.\n\n' +
+      'Posso te ajudar a navegar pelo site, sugerir exercícios e receitas, ou simplesmente ouvir como você está. Como posso te ajudar hoje?'
+    ), 300);
+  }
+
+  if (vitaOpen) {
+    setTimeout(() => document.getElementById('vita-input').focus(), 300);
+  }
+}
+
+function vitaAppendMsg(role, text) {
+  const box = document.getElementById('vita-messages');
+  const div = document.createElement('div');
+  div.className = `vita-msg ${role}`;
+  div.textContent = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  return div;
+}
+
+function vitaShowTyping() {
+  return vitaAppendMsg('typing', 'Vita está digitando…');
+}
+
+function vitaRespond(msg) {
+  const m = msg.toLowerCase();
+
+  // Saudações
+  if (/\b(oi|olá|ola|hey|hello|bom dia|boa tarde|boa noite|tudo bem|tudo bom|como vai)\b/.test(m)) {
+    const saudacoes = [
+      'Olá! Que bom te ver por aqui 😊 Como posso te ajudar hoje?',
+      'Oi! Estou aqui para te ajudar com bem-estar, exercícios e muito mais. O que você precisa?',
+      'Olá! Tudo ótimo por aqui 🌿 Em que posso te ajudar?'
+    ];
+    return saudacoes[Math.floor(Math.random() * saudacoes.length)];
+  }
+
+  // Exercícios / treino / academia
+  if (/\b(exerc|treino|treinar|academia|correr|corrida|caminhada|caminhar|muscula|fitness|atividade física|esporte)\b/.test(m)) {
+    return 'Adorei o interesse! 🏃 Para começar, o mais importante é a consistência:\n\n• Comece com 30 min de caminhada 3x por semana\n• Adicione exercícios de força simples: agachamento, flexão e prancha\n• Hidrate-se bem antes e depois\n• Descanse pelo menos 1 dia entre treinos\n\nAcesse a seção "Exercícios" no menu para ver nossos planos completos!';
+  }
+
+  // Receitas / alimentação / comida / dieta
+  if (/\b(receita|comer|comida|aliment|dieta|nutrição|nutri|saudável|lanche|café da manhã|almoço|jantar|refeição)\b/.test(m)) {
+    return 'Que ótimo foco na alimentação! 🥗 Aqui vão dicas rápidas:\n\n• Prefira alimentos frescos e minimamente processados\n• Monte o prato com metade de vegetais, ¼ proteína e ¼ carboidrato\n• Evite pular refeições — isso desacelera o metabolismo\n• Beba pelo menos 2L de água por dia\n\nVá até a seção "Receitas" para conferir nossas sugestões saudáveis e deliciosas! 🌱';
+  }
+
+  // Ansiedade / estresse / preocupação / nervoso
+  if (/\b(ansi|ansios|estress|preocup|nervos|medo|angústia|angustia|pânico|panico|mental|humor|triste|tristeza|deprim)\b/.test(m)) {
+    return 'Entendo, e estou aqui com você 💚 Momentos de ansiedade são mais comuns do que parecem.\n\nUma técnica que ajuda bastante é a respiração 4-7-8:\n• Inspire por 4 segundos\n• Segure por 7 segundos\n• Expire lentamente por 8 segundos\n\nRepita 3 vezes. Experimente agora mesmo!\n\nTambém temos um exercício de respiração guiada na seção "Psicológico" 🌬️';
+  }
+
+  // Sono / dormir / insônia
+  if (/\b(sono|dormir|insônia|insonia|acordar|cansad|descanso|descansar)\b/.test(m)) {
+    return 'Um bom sono é fundamental para a saúde! 😴 Aqui vão dicas:\n\n• Mantenha um horário fixo para dormir e acordar\n• Evite telas pelo menos 1h antes de deitar\n• Deixe o quarto fresco, escuro e silencioso\n• Evite cafeína após as 14h\n• Um chá de camomila ou lavanda pode ajudar a relaxar 🍵';
+  }
+
+  // Meditação / relaxamento / mindfulness
+  if (/\b(medit|relaxa|mindfulness|calma|calmar|paz|respira)\b/.test(m)) {
+    return 'A meditação é uma das ferramentas mais poderosas para o bem-estar! 🧘\n\nPara iniciantes, experimente:\n• Sente-se confortavelmente e feche os olhos\n• Foque apenas na sua respiração por 5 minutos\n• Quando a mente vagar, gentilmente traga o foco de volta\n\nPratique diariamente e em 2 semanas você já vai sentir a diferença. Veja o exercício de respiração na seção "Psicológico"!';
+  }
+
+  // Água / hidratação
+  if (/\b(água|agua|hidrata|beber)\b/.test(m)) {
+    return 'Hidratação é vida! 💧 A recomendação geral é de 35ml por kg de peso corporal por dia (ex: 70kg → 2,45L).\n\nDicas para beber mais água:\n• Tenha sempre uma garrafa por perto\n• Beba um copo ao acordar\n• Adicione frutas à água para dar sabor\n• Use um app para lembrar ao longo do dia 📱';
+  }
+
+  // Tour / como funciona / navegar / site
+  if (/\b(site|tour|navegar|naveg|funciona|seç|secao|página|pagina|menu)\b/.test(m)) {
+    return 'Vou te guiar! 🗺️ O Viva Hoje tem 4 seções principais:\n\n🏠 Início — visão geral e destaques\n🏃 Exercícios — planos de treino por nível\n🥗 Receitas — refeições saudáveis e saborosas\n🧠 Psicológico — técnicas de relaxamento e saúde mental\n\nUse o menu no topo para navegar. Qual seção te interessa mais?';
+  }
+
+  // Agradecimento
+  if (/\b(obrigad|obrigada|obrigado|valeu|thanks|thank you|grat)\b/.test(m)) {
+    return 'Fico feliz em ajudar! 🌿 Estou sempre por aqui. Cuide-se bem e lembre-se: pequenos hábitos diários fazem grandes transformações 💚';
+  }
+
+  // Despedida
+  if (/\b(tchau|até|ate logo|até mais|ate mais|bye|adeus|xau)\b/.test(m)) {
+    return 'Até logo! 👋 Foi ótimo conversar com você. Volte sempre que precisar de apoio no seu caminho de bem-estar 🌿💚';
+  }
+
+  // Fallback genérico
+  const fallbacks = [
+    'Hmm, não tenho uma resposta exata para isso, mas posso te ajudar com exercícios, receitas, técnicas de relaxamento ou um tour pelo site. O que prefere? 😊',
+    'Boa pergunta! Minha especialidade é bem-estar. Quer dicas sobre treino, alimentação, saúde mental ou como usar o site? 🌿',
+    'Ainda estou aprendendo sobre esse assunto! Mas posso te ajudar com: exercícios 🏃, receitas 🥗, ou técnicas para reduzir o estresse 💭. Escolha um!'
+  ];
+  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+}
+
+function vitaSend(text) {
+  const input = document.getElementById('vita-input');
+  const msg = (text || input.value).trim();
+  if (!msg || vitaTyping) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  vitaAppendMsg('user', msg);
+  vitaHistory.push({ role: 'user', content: msg });
+
+  const typingEl = vitaShowTyping();
+  vitaTyping = true;
+  document.getElementById('vita-send').disabled = true;
+
+  // Simula um pequeno delay de digitação para parecer natural
+  setTimeout(() => {
+    const reply = vitaRespond(msg);
+
+    typingEl.remove();
+    vitaAppendMsg('bot', reply);
+    vitaHistory.push({ role: 'assistant', content: reply });
+
+    if (!vitaOpen) {
+      document.getElementById('vita-fab').classList.add('vita-has-msg');
+    }
+
+    vitaTyping = false;
+    document.getElementById('vita-send').disabled = false;
+    document.getElementById('vita-messages').scrollTop = 9999;
+  }, 700 + Math.random() * 600);
+}
+
+function vitaSuggest(text) {
+  document.getElementById('vita-input').value = text;
+  vitaSend(text);
+}
+
+function vitaKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    vitaSend();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+}
+</script>
+
+</body>
+</html>
